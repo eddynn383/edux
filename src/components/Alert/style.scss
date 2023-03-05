@@ -1,0 +1,109 @@
+.alert {
+    display: flex;
+    padding: var(--padding-300, 12px);
+    border-radius: var(--border-radius-100, 4px);
+    gap: var(--gap-200, 8px); 
+
+    &[data-theme="light"][data-variant="solid"][data-status="success"] {
+        background-color: var(--success-color-400, #4CB963);
+        border: var(--border-width-100) solid var(--success-color-400, #4CB963);
+        color: var(--text-color-950, #ffffff)
+    }
+    &[data-theme="light"][data-variant="solid"][data-status="fail"] {
+        background-color: var(--fail-color-400, #BA2D0B);
+        border: var(--border-width-100) solid var(--fail-color-400, #BA2D0B);
+        color: var(--text-color-950, #ffffff)
+    }
+    &[data-theme="light"][data-variant="solid"][data-status="warning"] {
+        background-color: var(--warning-color-400, #FF9F1C);
+        border: var(--border-width-100) solid var(--warning-color-400, #FF9F1C);
+        color: var(--text-color-950, #ffffff)
+    }
+    &[data-theme="light"][data-variant="solid"][data-status="info"] {
+        background-color: var(--info-color-400, #58C4CE);
+        border: var(--border-width-100) solid var(--info-color-400, #58C4CE);
+        color: var(--text-color-950, #ffffff)
+    }
+
+    &[data-theme="light"][data-variant="outline"][data-status="success"] {
+        background-color: transparent;
+        border: var(--border-width-100) solid var(--success-color-400, #4CB963);
+        color: var(--success-color-400, #4CB963);
+        .alert-text {
+            color: var(--success-color-600, #4CB963);
+        }
+    }
+    &[data-theme="light"][data-variant="outline"][data-status="fail"] {
+        background-color: transparent;
+        border: var(--border-width-100) solid var(--fail-color-400, #BA2D0B);
+        color: var(--fail-color-400, #BA2D0B);
+        .alert-text {
+            color: var(--fail-color-600, #BA2D0B);
+        }
+    }
+    &[data-theme="light"][data-variant="outline"][data-status="warning"] {
+        background-color: transparent;
+        border: var(--border-width-100) solid var(--warning-color-400, #FF9F1C);
+        color: var(--warning-color-400, #FF9F1C);
+        .alert-text {
+            color: var(--warning-color-600, #FF9F1C);
+        }
+    }
+    &[data-theme="light"][data-variant="outline"][data-status="info"] {
+        background-color: transparent;
+        border: var(--border-width-100) solid var(--info-color-400, #58C4CE);
+        color: var(--info-color-400, #58C4CE);
+        .alert-text {
+            color: var(--info-color-600, #58C4CE);
+        }
+    }  
+    
+    &[data-theme="light"][data-variant="standard"][data-status="success"] {
+        background-color: var(--success-color-100, #C9EAD0);
+        border: var(--border-width-100) solid var(--success-color-100, #C9EAD0);
+        color: var(--success-color-400, #4CB963);
+        .alert-text {
+            color: var(--success-color-600, #2E6F3B);
+        }
+    }
+    &[data-theme="light"][data-variant="standard"][data-status="fail"] {
+        background-color: var(--fail-color-100, #EAB7AB);
+        border: var(--border-width-100) solid var(--fail-color-100, #EAB7AB);
+        color: var(--fail-color-400, #BA2D0B);
+        .alert-text {
+            color: var(--fail-color-600, #701B07);
+        }
+    }
+    &[data-theme="light"][data-variant="standard"][data-status="warning"] {
+        background-color: var(--warning-color-100, #FFE2BB);
+        border: var(--border-width-100) solid var(--warning-color-100, #FFE2BB);
+        color: var(--warning-color-400, #FF9F1C);
+        .alert-text {
+            color: var(--warning-color-600, #995F11);
+        }
+    }
+    &[data-theme="light"][data-variant="standard"][data-status="info"] {
+        background-color: var(--info-color-100, #CDEDF0);
+        border: var(--border-width-100) solid var(--info-color-100, #CDEDF0);
+        color: var(--info-color-400, #58C4CE);
+        .alert-text {
+            color: var(--info-color-600, #35767C);
+        }
+    } 
+    &-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 20px;
+        height: 20px;
+    }
+    &-text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-100);
+        width: 100%;
+    }
+    &-title {
+        font-weight: 700;
+    }
+}

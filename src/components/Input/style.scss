@@ -1,0 +1,169 @@
+.input {
+    display: grid;
+    grid-template-columns: auto;
+    align-items: center;
+    gap: var(--input-gap, var(--gap-300, 12px));
+    border-width: var(--input-border-width-default, var(--border-width-100, 1px));
+    border-style: solid;
+    border-radius: var(--border-radius-200, 10px);
+    .icon {
+        align-items: center;
+        justify-content: center;
+    }
+    .icon--showOnHover {
+        opacity: 0;
+        transition: opacity .3s ease;
+    }
+    &:hover .icon--showOnHover {
+        opacity: 1;
+    }
+        
+    input {
+        width: 100%;
+        border: none;
+        padding: 0;
+        margin: 0;
+        background: transparent;
+        appearance: none;
+        font-family: 'Roboto', sans-serif;
+        font-size: var(--input-font-size, var(--font-size-400, 16px));
+        line-height: var(--input-line-height, 18px);
+        
+        &:focus,
+        &:focus-visible {
+            outline: none;
+        }
+        &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: var(--input-placeholder-color, var(--text-color-700, #5B6367));
+            opacity: 1; /* Firefox */
+        }
+        
+        &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: var(--input-placeholder-color, var(--text-color-700, #5B6367));
+        }
+        
+        &::-ms-input-placeholder { /* Microsoft Edge */
+            color: var(--input-placeholder-color, var(--text-color-700, #5B6367));
+        }
+    }
+    &[data-size="small"] {
+        padding: var(--input-medium-padding-y, var(--padding-200, 8px)) var(--input-medium-padding-x, var(--padding-300, 12px));
+        gap: var(--input-small-gap, var(--gap-300, 12px));
+        input {
+            font-size: var(--input-small-font-size, var(--font-size-400, 16px));
+            line-height: var(--input-small-line-height, 18px);
+        }
+    }
+    
+    &[data-size="medium"] {
+        padding: var(--input-medium-padding-y, var(--padding-300, 12px)) var(--input-medium-padding-x, var(--padding-400, 16px));
+        gap: var(--input-medium-gap, var(--gap-300, 12px));
+        input {
+            font-size: var(--input-medium-font-size, var(--font-size-400, 16px));
+            line-height: var(--input-medium-line-height, 18px);
+        }
+    }
+    
+    &[data-size="large"] {
+        padding: var(--input-large-padding-y, var(--padding-400, 16px)) var(--input-large-padding-x, var(--padding-600, 24px));
+        gap: var(--input-large-gap, var(--gap-300, 12px));
+        input {
+            font-size: var(--input-large-font-size, var(--font-size-400, 16px));
+            line-height: var(--input-large-line-height, 18px);
+        }
+    }
+    
+    &[data-icon="both"] {
+        grid-template-columns: 16px auto 16px;
+    }
+    
+    &[data-icon="before"] {
+        grid-template-columns: 16px auto;
+    }
+    
+    &[data-icon="after"] {
+        grid-template-columns: auto 16px;
+    }
+
+    &:not(.input--checkbox) {
+        position: relative;
+    }
+    
+    &[data-focus="true"]:before,
+    &:focus:before,
+    &[data-focus="false"][data-status="fail"]:before,
+    &[data-focus="false"][data-status="success"]:before {
+        content: "";
+        position: absolute;
+        inset: -3px;
+        animation-name: animate-in; 
+        background-image: linear-gradient(to right, var(--focus), var(--focus)), 
+        linear-gradient(to bottom, var(--focus), var(--focus)), 
+        linear-gradient(to right, var(--focus), var(--focus)),
+        linear-gradient(to bottom, var(--focus), var(--focus)); 
+        background-position: 0 0, 100% 0, 100% 100%, 0 100%; 
+        background-repeat: no-repeat;   
+        border-radius: var(--border-radius-200);
+        animation-duration: 0.5s;
+        z-index: -1;
+    }
+    
+    &[data-focus="false"][data-status="success"]:before {
+        background-image: linear-gradient(to right, var(--success), var(--success)), 
+        linear-gradient(to bottom, var(--success), var(--success)), 
+        linear-gradient(to right, var(--success), var(--success)),
+        linear-gradient(to bottom, var(--success), var(--success)); 
+    }
+    
+    &[data-focus="false"][data-status="fail"]:before {
+        background-image: linear-gradient(to right, var(--fail), var(--fail)), 
+        linear-gradient(to bottom, var(--fail), var(--fail)), 
+        linear-gradient(to right, var(--fail), var(--fail)),
+        linear-gradient(to bottom, var(--fail), var(--fail)); 
+    }
+    .button {
+        position: absolute;
+        top: 50%;
+        right: 8px;
+        transform: translateY(-50%);
+    }
+    .show-pass {
+        background-color: red !important;
+    }
+}
+
+[data-theme="light"] .input {
+    background: var(--input-background-color-default, var(--background-color-150, #F0F2F4));
+    border-color: var(--input-border-color-default, var(--border-color-150, #F0F2F4));
+    color: var(--input-text-color, var(--text-color-200, #363636));
+    input {
+        color: inherit;
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover, 
+        &:-webkit-autofill:focus, 
+        &:-webkit-autofill:active {
+            box-shadow: 0 0 0 30px var(--background-color-150, #F0F2F4) inset !important;
+            -webkit-box-shadow: 0 0 0 30px var(--background-color-150, #F0F2F4) inset !important;
+            -webkit-text-fill-color: var(--text-color-200, #363636)
+        }
+    }
+}
+
+[data-theme="dark"] .input {
+    background: var(--input-background-color-default, var(--background-color-900, #2E2F30));
+    border-color: var(--input-border-color-default, var(--border-color-900, #2E2F30));
+    color: var(--input-text-color, var(--text-color-950, #ffffff));
+    input {
+        color: inherit;
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover, 
+        &:-webkit-autofill:focus, 
+        &:-webkit-autofill:active {
+            box-shadow: 0 0 0 30px var(--background-color-900, #2E2F30) inset !important;
+            -webkit-box-shadow: 0 0 0 30px var(--background-color-900, #2E2F30) inset !important;
+            -webkit-text-fill-color: var(--text-color-950, #ffffff)
+        }
+    }
+}
+
+

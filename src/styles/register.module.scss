@@ -1,0 +1,21 @@
+.description {
+    display: flex;
+    flex-direction: column;
+    gap: var(--register-description-gap, var(--gap-450, 18px));
+    margin-bottom: var(--register-description-margin, var(--margin-800, 32px));
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--register-form-gap, var(--gap-400, 16px))
+}
+
+.submit {
+    width: 100%;
+}
+
+.link {
+    text-align: center;
+    margin-top: var(--register-link-margin, var(--margin-800, 32px))
+}

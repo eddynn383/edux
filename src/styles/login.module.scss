@@ -1,0 +1,21 @@
+.description {
+    display: flex;
+    flex-direction: column;
+    gap: var(--login-description-gap, var(--gap-450, 18px));
+    margin-bottom: var(--login-description-margin, var(--margin-800, 32px));
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--login-form-gap, var(--gap-400, 16px))
+}
+
+.submit {
+    width: 100%;
+}
+
+.link {
+    text-align: center;
+    margin-top: var(--login-link-margin, var(--margin-800, 32px))
+}

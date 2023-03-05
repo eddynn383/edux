@@ -1,0 +1,96 @@
+.auth {
+    display: grid;
+    grid-template-columns: 500px auto;
+    overflow: hidden;
+    .left {
+        padding: 60px;
+        height: 100vh;
+        .inner {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .title {
+            margin-bottom: var(--margin-450);
+        }
+        .logo {
+            width: 140px;
+            height: auto;
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+        .form {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            margin: auto 0;
+        }
+    }
+    .right {
+        height: 100vh;
+        .inner {
+            height: 100%;
+            padding: var(--padding-400, 16px);
+            .wallpaper {
+                height: 100%;
+                border-radius: var(--border-radius-400, 16px);
+                overflow: hidden;
+                .image {
+                    object-fit: cover;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+    }
+}
+
+.main {
+    display: grid;
+    grid-template-columns: 300px auto;
+    overflow: hidden;
+    .left {
+        height: 100vh;
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 80px;
+            img {
+                width: 140px;
+                height: auto;
+            }
+        }
+    }
+    .right {
+        .inner {
+            height: 100%;
+            padding: var(--padding-800);
+            > * {
+                width: 100%;
+            }
+        }
+    }
+}
+
+[data-theme="light"] .main {
+    .left {
+        background-color: var(--layout-main-left, var(--background-color-100, #ffffff));
+    }
+    .right {
+        background-color: var(--layout-main-right, var(--background-color-150, #F0F2F4));
+    }
+}
+
+[data-theme="dark"] .main {
+    .left {
+        background-color: var(--layout-main-left, var(--background-color-950, #242424));
+    }
+    .right {
+        background-color: var(--layout-main-right, var(--background-color-900, #2E2F30));
+    }
+}

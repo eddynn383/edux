@@ -1,0 +1,49 @@
+.text {
+    font-weight: 400;
+    // Status
+    &[data-theme="light"][data-status="default"] {
+        color: var(--text-color-100)
+    }
+    &[data-theme="light"][data-status="success"] {
+        color: var(--success-color-400)
+    }
+    &[data-theme="light"][data-status="fail"] {
+        color: var(--fail-color-400)
+    }
+    &[data-theme="light"][data-status="warning"] {
+        color: var(--warning-color-400)
+    }
+    &[data-theme="light"][data-status="info"] {
+        color: var(--info-color-400)
+    }
+
+    &[data-theme="dark"][data-status="default"] {
+        color: var(--text-color-950)
+    }
+    &[data-theme="dark"][data-status="success"] {
+        color: var(--success-color-400)
+    }
+    &[data-theme="dark"][data-status="fail"] {
+        color: var(--fail-color-400)
+    }
+    &[data-theme="dark"][data-status="warning"] {
+        color: var(--warning-color-400)
+    }
+    &[data-theme="dark"][data-status="info"] {
+        color: var(--info-color-400)
+    }
+
+    // Size
+    &[data-size="small"] {
+        font-size: var(--font-size-100);
+        font-weight: var(--font-weight-400);
+    }
+    &[data-size="medium"] {
+        font-size: var(--font-size-300);
+        font-weight: var(--font-weight-300);
+    }
+    &[data-size="large"] {
+        font-size: var(--font-size-500);
+        font-weight: var(--font-weight-100);
+    }
+}

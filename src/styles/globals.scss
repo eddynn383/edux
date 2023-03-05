@@ -1,0 +1,257 @@
+:root {
+    --accent-color-100: #A4C4E3;
+    --accent-color-200: #77A6D6;
+    --accent-color-300: #4989C8;
+    --accent-color-400: #1C6BBA;
+    --accent-color-500: #165695;
+    --accent-color-600: #114070;
+    --accent-color-700: #0B2B4A;
+    --background-color-100: #FFFFFF;
+    --background-color-150: #F0F2F4;
+    --background-color-200: #E1E6E9;
+    --background-color-300: #C4CCD0;
+    --background-color-400: #B0B9BE;
+    --background-color-500: #8D989D;
+    --background-color-600: #737C81;
+    --background-color-700: #5B6367;
+    --background-color-800: #4D5153;
+    --background-color-850: #343738;
+    --background-color-900: #2E2F30;
+    --background-color-950: #242424;
+    --text-color-100: #181818;
+    --text-color-150: #282828;
+    --text-color-200: #363636;
+    --text-color-300: #505050;
+    --text-color-400: #616161;
+    --text-color-500: #7A7A7A;
+    --text-color-600: #959595;
+    --text-color-700: #B7B7B7;
+    --text-color-800: #CACACA;
+    --text-color-850: #E5E5E5;
+    --text-color-900: #F2F2F2;
+    --text-color-950: #FFFFFF;
+    --success-color-100: #C9EAD0;
+    --success-color-200: #B7E3C1;
+    --success-color-300: #94D5A1;
+    --success-color-400: #4CB963;
+    --success-color-500: #3D944F;
+    --success-color-600: #2E6F3B;
+    --success-color-700: #17381E;
+    --fail-color-100: #EAB7AB;
+    --fail-color-200: #E8A08F;
+    --fail-color-300: #D57C66;
+    --fail-color-400: #BA2D0B;
+    --fail-color-500: #952409;
+    --fail-color-600: #701B07;
+    --fail-color-700: #380E03;
+    --warning-color-100: #FFE2BB;
+    --warning-color-200: #FFD9A4;
+    --warning-color-300: #FFC577;
+    --warning-color-400: #FF9F1C;
+    --warning-color-500: #CC7F16;
+    --warning-color-600: #995F11;
+    --warning-color-700: #4D3008;
+    --info-color-100: #CDEDF0;
+    --info-color-200: #BCE7EB;
+    --info-color-300: #9BDCE2;
+    --info-color-400: #58C4CE;
+    --info-color-500: #469DA5;
+    --info-color-600: #35767C;
+    --info-color-700: #1A3B3E;
+
+    --size-000: 0;
+    --size-025: 1px;
+    --size-050: 2px;
+    --size-100: 4px;
+    --size-200: 8px;
+    --size-250: 10px;
+    --size-300: 12px;
+    --size-400: 16px;
+    --size-500: 20px;
+    --size-600: 24px;
+    --size-700: 28px;
+    --size-750: 30px;
+    --size-800: 32px;
+    --size-900: 36px;
+
+    // Border Size
+    --border-width-000: 0;
+    --border-width-100: 1px;
+    --border-width-200: 2px;
+    --border-width-300: 4px;
+
+    // Border Radius
+    --border-radius-000: var(--size-000);
+    --border-radius-100: var(--size-100);
+    --border-radius-200: var(--size-200);
+    --border-radius-250: var(--size-250);
+    --border-radius-300: var(--size-300);
+    --border-radius-400: var(--size-400);
+
+    // Border Color
+    --border-color-100: var(--background-color-100);
+    --border-color-150: var(--background-color-150);
+    --border-color-200: var(--background-color-200);
+    --border-color-400: var(--background-color-400);
+    --border-color-900: var(--background-color-900);
+
+    // Padding
+    --padding-100: var(--size-100);
+    --padding-200: var(--size-200);
+    --padding-250: var(--size-250);
+    --padding-300: var(--size-300);
+    --padding-400: var(--size-400);
+    --padding-500: var(--size-500);
+    --padding-600: var(--size-600);
+    --padding-700: var(--size-700);
+    --padding-800: var(--size-800);
+
+    // Margin
+    --margin-100: 4px;
+    --margin-200: 8px;
+    --margin-300: 12px;
+    --margin-400: 16px;
+    --margin-450: 18px;
+    --margin-500: 20px;
+    --margin-600: 24px;
+    --margin-700: 28px;
+    --margin-800: 32px;
+
+    // Gap
+    --gap-100: 4px;
+    --gap-200: 8px;
+    --gap-300: 12px;
+    --gap-400: 16px;
+    --gap-450: 18px;
+
+    // Font-size
+    --font-size-100: 10px;
+    --font-size-200: 12px;
+    --font-size-300: 14px;
+    --font-size-400: 16px;
+    --font-size-500: 18px;
+    --font-size-600: 20px;
+    --font-size-700: 32px;
+
+    // Font-weight
+    --font-weight-100: 100;
+    --font-weight-300: 300;
+    --font-weight-400: 400;
+    --font-weight-500: 500;
+    --font-weight-700: 700;
+
+    // Font-weight
+    --line-height-100: 1;
+    --line-height-200: 1.2;
+    --line-height-300: 1.4;
+
+    // Font-weight
+    --letter-space-000: 0;
+    --letter-space-100: 0.1px;
+    --letter-space-200: 0.2px;
+    --letter-space-300: 0.3px;
+    --letter-space-400: 0.4px;
+    --letter-space-500: 0.5px;
+    --letter-space-600: 0.6px;
+    --letter-space-700: 0.7px;
+
+    // // Body
+    // --body-text-color: var(--text-color-100, #181818);
+    // --body-background-color: var(--background-color-100, #ffffff);
+}
+
+// @media (prefers-color-scheme: dark) {
+//     :root {
+//         --body-text-color: var(--text-color-950, #ffffff);
+//         --body-background-color: var(--background-color-950, #242424);
+//     }
+// }
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body {
+    max-width: 100vw;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+html[data-theme="light"] {
+    background-color: var(--body-background-color, var(--background-color-100, #ffffff));
+    color: var(--body-text-color, var(--text-color-100, #181818));
+    transition: background-color .3s ease-out;
+}
+
+html[data-theme="dark"] {
+    background-color: var(--body-background-color, var(--background-color-950, #242424));
+    color: var(--body-text-color, var(--text-color-950, #ffffff));
+    transition: background-color .3s ease-out;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: var(--font-weight-400, 400);
+    #__next {
+        height: 100%;
+    }
+}
+
+h1 {
+    font-size: var(--h1-font-size, var(--font-size-700, 32px));
+    font-weight: var(--h1-font-weight, var(--font-weight-500, 500));
+    line-height: var(--h1-line-height, var(--line-height-100, 1));
+    letter-spacing: var(--h1-letter-spacing, var(--letter-spacing-500, 0.5px));
+}
+
+h2 {
+    font-size: var(--h2-font-size, var(--font-size-600, 20px));
+    font-weight: var(--h2-font-weight, var(--font-weight-500, 500));
+    line-height: var(--h2-line-height, var(--line-height-200, 1.2));
+    letter-spacing: var(--h2-letter-spacing, var(--letter-spacing-500, 0.5px));
+}
+
+h3 {
+    font-size: var(--h3-font-size, var(--font-size-500, 18px));
+    font-weight: var(--h3-font-weight, var(--font-weight-400, 400));
+    line-height: var(--h3-line-height, var(--line-height-200, 1.2));
+    letter-spacing: var(--h3-letter-spacing, var(--letter-spacing-500, 0.5px));
+}
+
+h4 {
+    font-size: var(--h4-font-size, var(--font-size-500, 18px));
+    font-weight: var(--h4-font-weight, var(--font-weight-400, 400));
+    line-height: var(--h4-line-height, var(--line-height-200, 1.2));
+    letter-spacing: var(--h4-letter-spacing, var(--letter-spacing-500, 0.5px));
+}
+
+h5 {
+    font-size: var(--h5-font-size, var(--font-size-400, 16px));
+    font-weight: var(--h5-font-weight, var(--font-weight-700, 700));
+    line-height: var(--h5-line-height, var(--line-height-100, 1));
+    letter-spacing: var(--h5-letter-spacing, var(--letter-spacing-500, 0.5px));
+}
+
+h6 {
+    font-size: var(--h5-font-size, var(--font-size-400, 16px));
+    font-weight: var(--h5-font-weight, var(--font-weight-500, 500));
+    line-height: var(--h5-line-height, var(--line-height-100, 1));
+    letter-spacing: var(--h6-letter-spacing, var(--letter-spacing-500, 0.5px));
+}
+
+a {
+    color: var(--anchor-text-color-default, var(--accent-color-400, #1C6BBA));
+    text-decoration: none;
+    &:hover {
+        color: var(--anchor-text-color-default, var(--accent-color-500, #165695));
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    html {
+        color-scheme: dark;
+    }
+}
