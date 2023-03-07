@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react"
 import { useRouter } from "next/router"
-import { signIn } from "next-auth/react"
 import { useTheme } from "next-themes"
+
+import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { getProviders, signIn } from "next-auth/react"
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "../api/auth/[...nextauth]";
+
 import Head from "next/head"
 import Link from "next/link"
 import Image from "next/image"
@@ -9,11 +14,12 @@ import AuthLayout from "@/layouts/AuthLayout"
 import Input from "@/components/Input"
 import Button from "@/components/Button"
 import Google from "../../assets/images/google.svg"
+import Github from "../../assets/images/github.svg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import sx from "../../styles/login.module.scss"
 
-export default function Login() {
+export default function Login({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
     const { resolvedTheme:theme } = useTheme()
 
@@ -50,6 +56,11 @@ export default function Login() {
         signIn('google', { callbackUrl : "http://localhost:3000"})
     }
 
+    // Google Handler function
+    async function handleGithubSignin(){
+        signIn('github', { callbackUrl : "http://localhost:3000"})
+    }
+
     return (
         <AuthLayout>
             <Head>
@@ -67,11 +78,31 @@ export default function Login() {
                     <Input cn={sx.email} name="email" type="email" placeholder="Email" size="large" value={email} theme={theme} iconBefore={<FontAwesomeIcon icon={faEnvelope} />} onChange={(e:any) => {setEmail(e.target.value)}} />
                     <Input cn={sx.password} name="password" type={`${passType ? "text" : "password"}`} placeholder="Password" size="large" value={password} iconBefore={<FontAwesomeIcon icon={faLock} />} iconAfter={<Button size="small" variant="text" status="neutral" content="icon" theme={theme} onClick={() => setPassType((prev) => !prev)}><FontAwesomeIcon icon={passType === true ? faEye : faEyeSlash} /></Button>} theme={theme} onChange={(e:any) => {setPassword(e.target.value)}} />
                     <Button cn={sx.submit} size="large" type="submit" theme={theme}>Sign in</Button>
-                    <Button cn={sx.submit} size="large" type="button" variant="neutral" status="neutral" theme={theme} onClick={handleGoogleSignin}><><Image src={Google} alt="Google" width="16"/> Sign In with Google</></Button>
+                    <div style={{'display': 'flex', 'gap': '16px'}}>
+                        <Button cn={sx.submit} size="large" type="button" variant="neutral" status="neutral" theme={theme} onClick={handleGoogleSignin}><Image src={Google} alt="Google" width="16"/></Button>
+                        <Button cn={sx.submit} size="large" type="button" variant="neutral" status="neutral" theme={theme} onClick={handleGithubSignin}><Image src={Github} alt="Github" width="16"/></Button>
+                    </div>
                 </form>
                 <p className={sx.link}>Dont have an account yet? <Link href="/auth/register">Sign up</Link></p>
             </div>
         </AuthLayout>
     )
 
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+    const session = await getServerSession(context.req, context.res, authOptions);
+    
+    // If the user is already logged in, redirect.
+    // Note: Make sure not to redirect to the same page
+    // To avoid an infinite loop!
+    if (session) {
+        return { redirect: { destination: "/" } };
+    }
+  
+    const providers = await getProviders();
+    
+    return {
+        props: { providers: providers ?? [] },
+    }
 }

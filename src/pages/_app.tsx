@@ -1,6 +1,7 @@
 import { createContext, useState } from 'react'
 import type { AppProps } from 'next/app'
-import { SessionProvider } from 'next-auth/react'
+import type { NextComponentType  } from 'next' //Import Component type
+import { SessionProvider, useSession } from 'next-auth/react'
 import useTheme from '@/hooks/useTheme'
 import useLocalStorage from 'use-local-storage'
 import '@/styles/globals.scss'
@@ -10,7 +11,13 @@ import { ThemeProvider } from 'next-themes'
 
 config.autoAddCss = false;
 
-export default function App({ Component, pageProps }: AppProps) {
+
+//Add custom appProp type then use union to add it
+type CustomAppProps = AppProps & {
+    Component: NextComponentType & {auth?: boolean} // add auth type
+}
+
+export default function App({ Component, pageProps: { session, ...pageProps } }: CustomAppProps) {
     // const [theme, setTheme] = useLocalStorage<string>('theme' ? 'dark' : 'light') 
     // const [theme, setTheme] = useState<string>('light')
     // const toggleTheme:any = () => {
@@ -21,9 +28,31 @@ export default function App({ Component, pageProps }: AppProps) {
     
     return (   
         <ThemeProvider>
-            <SessionProvider session={pageProps.session}>
-                <Component {...pageProps} />
+            <SessionProvider session={session}>
+                {
+                    Component.auth ? (
+                        <Auth>
+                            <Component {...pageProps} />
+                        </Auth>
+                    ) : (
+                        <Component {...pageProps} />
+                    )
+                }
             </SessionProvider>
         </ThemeProvider>     
     )
+}
+
+
+function Auth({ children }:any) {
+    // if `{ required: true }` is supplied, `status` can only be "loading" or "authenticated"
+    const { status } = useSession({ required: true })
+
+    console.log(status)
+  
+    if (status === "loading") {
+        return <div>Loading...</div>
+    }
+  
+    return children
 }

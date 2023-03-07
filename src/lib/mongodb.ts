@@ -1,0 +1,31 @@
+// This approach is taken from https://github.com/vercel/next.js/tree/canary/examples/with-mongodb
+import { MongoClient } from "mongodb";
+
+if (!process.env.USERSDB_URI) {
+  throw new Error('Invalid/Missing environment variable: "USERSDB_URI"')
+}
+
+const uri: string = process.env.USERSDB_URI
+const options = {}
+
+let client: MongoClient
+let clientPromise: Promise<MongoClient>
+
+if (process.env.NODE_ENV === 'development') {
+
+    let globalWithMongoClientPromise =  global as typeof globalThis & {
+        _mongoClientPromise: Promise<MongoClient>
+    }
+
+    if (!globalWithMongoClientPromise._mongoClientPromise) {
+        client = new MongoClient(uri, options)
+        globalWithMongoClientPromise._mongoClientPromise = client.connect()
+    }
+    clientPromise = globalWithMongoClientPromise._mongoClientPromise
+} else {
+    client = new MongoClient(uri, options)
+    clientPromise = client.connect()
+}
+
+
+export default clientPromise;

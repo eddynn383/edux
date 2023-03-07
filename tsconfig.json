@@ -19,6 +19,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/api/auth/[...nextauth].js", "src/pages/auth/login.tsx", "src/pages/api/auth/register.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/api/auth/[...nextauth].js", "src/pages/auth/login.tsx", "src/pages/api/auth/register.ts", "src/pages/api/test-session.js", "src/lib/mongodb.ts"],
   "exclude": ["node_modules"]
 }

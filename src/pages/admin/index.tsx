@@ -36,6 +36,12 @@ const AdminHome = () => {
     );
 };
 
+AdminHome.auth = {
+    role: "admin",
+    loading: <p>LOading...</p>,
+    unauthorized: "/login-with-different-user", // redirect to this url
+}
+
 // export async function getServerSideProps({ req }: any) {
 //     const session = await getSession({ req })
 

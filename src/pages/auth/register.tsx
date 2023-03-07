@@ -12,6 +12,7 @@ import Google from "../../assets/images/google.svg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faEnvelope, faEye, faEyeSlash, faShield, faUnlock, faLock } from "@fortawesome/free-solid-svg-icons";
 import sx from '../../styles/register.module.scss';
+import axios from "axios";
 
 
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -54,17 +55,29 @@ export default function Register() {
             return
         }
 
-        const response = await fetch('/api/auth/register', {
-            method: 'POST',
-            body: JSON.stringify({ email, password, role }),
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
+        // const response = await fetch('/api/register', {
+        //     method: 'POST',
+        //     body: JSON.stringify({ email, password, role }),
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     }
+        // })
 
-        if (response.ok) {
-            router.push('/login');
-        }
+        const response = await axios.post(
+            '/api/register', 
+            { email, password, role },
+            {
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                },
+            }
+        ).then(async () => {
+            console.log("The user was successfully registred");
+            router.push('/auth/login');
+        }).catch((error) => {
+            console.log(error);
+        });
     }
 
     useEffect(() => {
@@ -86,11 +99,11 @@ export default function Register() {
                     <p>Welcome! Please enter your details.</p>
                 </div>
                 {
-                showError && 
-                <Alert status="fail" variant="standard" action={<Button size="small" variant="text" status="fail" onClick={() => setShowError(false)}><FontAwesomeIcon icon={faClose} /></Button>}>
-                    <Alert.Title>Error</Alert.Title>
-                    <Alert.Description>{errorMsg}</Alert.Description>
-                </Alert>
+                    showError && 
+                    <Alert status="fail" variant="standard" action={<Button size="small" variant="text" status="fail" onClick={() => setShowError(false)}><FontAwesomeIcon icon={faClose} /></Button>}>
+                        <Alert.Title>Error</Alert.Title>
+                        <Alert.Description>{errorMsg}</Alert.Description>
+                    </Alert>
                 }
                 <form className={sx.form} onSubmit={handleSubmit}>
                     <Input cn={sx.email} name="email" type="email" placeholder="Email" size="large" value={email} theme={theme} iconBefore={<FontAwesomeIcon icon={faEnvelope} />} onChange={(e:any) => setEmail(e.target.value)} />
@@ -99,7 +112,6 @@ export default function Register() {
                     <Button cn={sx.submit} size="large" type="submit" theme={theme}>Sign up</Button>
                     <Button cn={sx.submit} size="large" type="button" variant="neutral" status="neutral" theme={theme}><><Image src={Google} alt="Google" width="16"/> Sign Up with Google</></Button>
                 </form>
-                
                 <p className={sx.link}>Already have an account? <Link href="/auth/login">Sign in</Link></p>
             </div>
         </AuthLayout>
