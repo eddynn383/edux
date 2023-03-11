@@ -19,7 +19,7 @@ const validateForm = async (email: string, password: string) => {
         return { error: "Email is invalid" };
     }
 
-    await dbConnect();
+    await dbConnect('UsersDB');
 
     const emailUser = await User.findOne({ email: email });
 

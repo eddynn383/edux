@@ -19,7 +19,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import sx from "../../styles/login.module.scss"
 
-export default function Login({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Login() {
 
     const { resolvedTheme:theme } = useTheme()
 
@@ -36,10 +36,10 @@ export default function Login({ providers }: InferGetServerSidePropsType<typeof 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
         const result = await signIn("credentials", {
+            redirect: false,
             email,
             password,
             callbackUrl: callbackUrl ?? "/",
-            redirect: false
         })
 
         if(result?.error) {
@@ -96,13 +96,13 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     // If the user is already logged in, redirect.
     // Note: Make sure not to redirect to the same page
     // To avoid an infinite loop!
+    // console.log(session)
+
     if (session) {
         return { redirect: { destination: "/" } };
     }
-  
-    const providers = await getProviders();
-    
+
     return {
-        props: { providers: providers ?? [] },
+        props: await getProviders(),
     }
 }

@@ -8,6 +8,8 @@ import '@/styles/globals.scss'
 import "@fortawesome/fontawesome-svg-core/styles.css"; 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { ThemeProvider } from 'next-themes'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
 
 config.autoAddCss = false;
 
@@ -25,6 +27,8 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     // }
 
     // const { theme } = useTheme()
+
+    library.add(fas)
     
     return (   
         <ThemeProvider>
@@ -48,7 +52,7 @@ function Auth({ children }:any) {
     // if `{ required: true }` is supplied, `status` can only be "loading" or "authenticated"
     const { status } = useSession({ required: true })
 
-    console.log(status)
+    // console.log(status)
   
     if (status === "loading") {
         return <div>Loading...</div>

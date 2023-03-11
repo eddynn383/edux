@@ -40,8 +40,8 @@ export default function Register() {
     const handleSubmit = async (e:any) => {
         e.preventDefault()
 
-        console.log(checkedEmail)
-        console.log(checkedPassword)
+        // console.log(checkedEmail)
+        // console.log(checkedPassword)
 
         if (!checkedEmail) {
             setErrorMsg('The email is not valid!')
@@ -79,13 +79,6 @@ export default function Register() {
             console.log(error);
         });
     }
-
-    useEffect(() => {
-        console.log(email)
-        console.log(password)
-        console.log(passwordConfirm)
-      
-    }, [])
     
 
     return (

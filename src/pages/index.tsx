@@ -4,8 +4,6 @@ import { authOptions } from './api/auth/[...nextauth]'
 import { getServerSession } from "next-auth/next"
 import type { GetServerSidePropsContext } from "next";
 import { useRouter } from 'next/router'
-import Button from '@/components/Button'
-import Link from 'next/link' 
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const session = await getServerSession(context.req, context.res, authOptions)

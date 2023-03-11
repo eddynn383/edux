@@ -44,7 +44,7 @@
     }
 
     &[data-theme="light"][data-variant="outline"][data-status="accent"] {
-        background-color: var(--button-outline-accent-background-default, var(--background-color-100, #ffffff));
+        background-color: var(--button-outline-accent-background-default, transparent);
         border: var(--border-width-100) solid var(--button-outline-accent-border-default, var(--accent-color-400, #1C6BBA));
         color: var(--button-outline-accent-text-default, var(--accent-color-400, #1C6BBA));
         transition: .3s ease-in-out;
@@ -54,7 +54,7 @@
             color: var(--button-outline-accent-text-hover, var(--text-color-950, #ffffff));
         }
         &:focus {
-            background-color: var(--button-outline-accent-background-focus, var(--background-color-100, #ffffff));
+            background-color: var(--button-outline-accent-background-focus, transparent);
             border: var(--border-width-100) solid var(--button-outline-accent-border-focus, var(--accent-color-500, #165695));
             color: var(--button-outline-accent-text-focus, var(--accent-color-400, #1C6BBA));
         }
@@ -96,7 +96,7 @@
             border: var(--border-width-100) solid var(--button-neutral-accent-background-focus, var(--accent-color-400, #1C6BBA));
         }
         &:disabled {
-            color: var(--button-neutral-accent-text-disabled, var(--accent-color-100, #A4C4E3));
+            color: var(--button-neutral-accent-text-disabled, var(--text-color-800, #CACACA));
         }
     }
 
@@ -121,7 +121,7 @@
             border: var(--border-width-100) solid var(--button-text-accent-background-focus, var(--background-color-900, #2E2F30));
         }
         &:disabled {
-            color: var(--button-text-accent-text-disabled, var(--text-color-800, #CACACA));
+            color: var(--button-text-accent-text-disabled, var(--accent-color-200, #77A6D6));
         }
     }
 
@@ -212,7 +212,7 @@
             border: var(--border-width-100) solid var(--button-success-background-focus, var(--success-color-400, #4CB963));
         }
         &:disabled {
-            color: var(--button-success-text-disabled, var(--success-color-100, #C9EAD0));
+            color: var(--button-success-text-disabled, var(--text-color-800, #CACACA));
         }
     }
 
@@ -328,7 +328,7 @@
             border: var(--border-width-100) solid var(--button-fail-background-focus, var(--fail-color-400, #BA2D0B));
         }
         &:disabled {
-            color: var(--button-fail-text-disabled, var(--fail-color-100, #C9EAD0));
+            color: var(--button-fail-text-disabled, var(--text-color-800, #CACACA));
         }
     }
 
@@ -444,7 +444,7 @@
             border: var(--border-width-100) solid var(--button-warning-background-focus, var(--warning-color-400, #FF9F1C));
         }
         &:disabled {
-            color: var(--button-warning-text-disabled, var(--warning-color-100, #C9EAD0));
+            color: var(--button-warning-text-disabled, var(--text-color-800, #CACACA));
         }
     }
 
@@ -558,7 +558,7 @@
             border: var(--border-width-100) solid var(--button-info-background-focus, var(--info-color-400, #58C4CE));
         }
         &:disabled {
-            color: var(--button-info-text-disabled, var(--info-color-100, #C9EAD0));
+            color: var(--button-info-text-disabled, var(--text-color-800, #CACACA));
         }
     }
 
@@ -584,6 +584,120 @@
         }
         &:disabled {
             color: var(--button-text-info-text-disabled, var(--info-color-200, #BCE7EB));
+        }
+    }
+
+    // STATUS: neutral
+    &[data-theme="light"][data-variant="solid"][data-status="neutral"] {
+        background-color: var(--button-solid-neutral-background-default, var(--background-color-300, #C4CCD0));
+        border: var(--border-width-100) solid var(--button-solid-neutral-border-default, var(--background-color-300, #C4CCD0));
+        color: var(--button-solid-neutral-text-default, var(--text-color-950, #fff));
+        transition: .3s ease-in-out;
+        &:not(:disabled):hover {
+            background-color: var(--button-solid-neutral-background-hover, var(--background-color-400, #B0B9BE));
+            border: var(--border-width-100) solid var(--button-solid-neutral-border-hover, var(--background-color-400, #B0B9BE));
+            color: var(--button-solid-neutral-text-hover, var(--text-color-950, #fff));
+        }
+        &:focus {
+            background-color: var(--button-solid-neutral-background-focus, var(--background-color-300, #C4CCD0));
+            border: var(--border-width-100) solid var(--button-solid-neutral-border-focus, var(--background-color-400, #B0B9BE));
+            color: var(--button-solid-neutral-text-focus, var(--text-color-950, #ffffff));
+        }
+        &:not(:disabled):focus:hover {
+            background-color: var(--button-solid-neutral-background-hover, var(--background-color-400, #B0B9BE));
+        }
+        &:focus:before {
+            content: "";
+            position: absolute;
+            inset: -4px;
+            border: var(--border-width-100) solid var(--button-solid-neutral-background-focus, var(--background-color-400, #B0B9BE));
+        }
+        &:disabled {
+            background-color: var(--button-solid-neutral-background-disabled, var(--background-color-150, #F0F2F4));
+            border: var(--border-width-100) solid var(--button-solid-neutral-border-disabled, var(--background-color-150, #F0F2F4));
+            color: var(--button-solid-neutral-text-disabled, var(--text-color-950, #ffffff));
+        }
+    }
+
+    &[data-theme="light"][data-variant="outline"][data-status="neutral"] {
+        background-color: var(--button-outline-neutral-background-default, transparent);
+        border: var(--border-width-100) solid var(--button-outline-neutral-border-default, var(--background-color-300, #C4CCD0));
+        color: var(--button-outline-neutral-text-default, var(--text-color-600, #959595));
+        transition: .3s ease-in-out;
+        &:not(:disabled):hover {
+            background-color: var(--button-outline-neutral-background-hover, var(--background-color-300, #C4CCD0));
+            border: var(--border-width-100) solid var(--button-outline-neutral-border-hover, var(--background-color-300, #C4CCD0));
+            color: var(--button-outline-neutral-text-hover, var(--text-color-950, #ffffff));
+        }
+        &:focus {
+            background-color: var(--button-outline-neutral-background-focus, transparent);
+            border: var(--border-width-100) solid var(--button-outline-neutral-border-focus, var(--background-color-300, #C4CCD0));
+            color: var(--button-outline-neutral-text-focus, var(--text-color-600, #959595));
+        }
+        &:not(:disabled):focus:hover {
+            background-color: var(--button-outline-neutral-background-hover, var(--background-color-300, #C4CCD0));
+            color: var(--button-outline-neutral-text-hover, var(--text-color-950, #ffffff));    
+        }
+        &:focus:before {
+            content: "";
+            position: absolute;
+            inset: -4px;
+            border: var(--border-width-100) solid var(--button-outline-neutral-background-focus, var(--background-color-300, #C4CCD0));
+        }
+        &:disabled {
+            background-color: var(--button-outline-neutral-background-disabled, transparent);
+            border: var(--border-width-100) solid var(--button-outline-neutral-border-disabled, var(--background-color-200, #E1E6E9));
+            color: var(--button-outline-neutral-text-disabled, var(--text-color-800, #CACACA));
+        }
+    }
+
+    &[data-theme="light"][data-variant="neutral"][data-status="neutral"] {
+        background-color: var(--button-neutral-neutral-background-default, rgba(0, 0, 0, 0.05));
+        border: var(--border-width-100) solid var(--button-neutral-neutral-border-default, transparent);
+        color: var(--button-neutral-text-default, var(--text-color-200, #363636));
+        transition: .3s ease-in-out;
+        &:not(:disabled):hover {
+            background-color: var(--button-neutral-background-hover, var(--background-color-400, #616161));
+            border: var(--border-width-100) solid var(--button-neutral-border-hover, var(--background-color-400, #616161));
+            color: var(--button-neutral-text-hover, var(--text-color-950, #ffffff));
+        }
+        &:not(:disabled):focus:hover {
+            background-color: var(--button-neutral-background-hover, var(--background-color-400, #616161));
+            color: var(--button-neutral-text-hover, var(--text-color-950, #ffffff));    
+        }
+        &:focus:before {
+            content: "";    
+            position: absolute;
+            inset: -4px;
+            border: var(--border-width-100) solid var(--button-neutral-background-focus, var(--background-color-400, #616161));
+        }
+        &:disabled {
+            color: var(--button-neutral-text-disabled, var(--text-color-800, #CACACA));
+        }
+    }
+
+    &[data-theme="light"][data-variant="text"][data-status="neutral"] {
+        background-color: var(--button-text-neutral-background-default, transparent);
+        border: var(--border-width-100) solid var(--button-text-neutral-border-default, transparent);
+        color: var(--button-text-neutral-text-default, var(--text-color-600, #35767C));
+        transition: .3s ease-in-out;
+        &:not(:disabled):hover {
+            background-color: var(--button-text-neutral-background-hover, var(--background-color-400, #B0B9BE));
+            border: var(--border-width-100) solid var(--button-text-neutral-border-hover, var(--background-color-400, #B0B9BE));
+            color: var(--button-text-neutral-text-hover, var(--text-color-950, #ffffff));
+        }
+        &:not(:disabled):focus:hover {
+            background-color: var(--button-text-neutral-background-hover, var(--background-color-400, #B0B9BE));
+            color: var(--button-text-neutral-text-hover, var(--text-color-950, #ffffff));    
+        }
+        &:focus:before {
+            content: "";
+            position: absolute;
+            inset: -4px;
+            border: var(--border-width-100) solid var(--button-text-neutral-background-focus, var(--background-color-400, #B0B9BE));
+        }
+        &:disabled {
+            color: var(--button-text-neutral-text-disabled, var(--text-color-800, #CACACA));
         }
     }
 

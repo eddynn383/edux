@@ -1,14 +1,13 @@
 // pages/admin.tsx
 import Link from "next/link";
 import React from "react";
-import { signOut, getSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Button from '@/components/Button'
 import Alert from '@/components/Alert';
 import MainLayout from "@/layouts/MainLayout";
 
-const AdminHome = () => {
-    const session = getSession()
-
+const AdminDashboard = () => {
+    const { data: session } = useSession()
     console.log(session)
     return (
         <MainLayout>
@@ -36,18 +35,10 @@ const AdminHome = () => {
     );
 };
 
-AdminHome.auth = {
-    role: "admin",
+AdminDashboard.auth = {
+    roles: ["Admin"],
     loading: <p>LOading...</p>,
     unauthorized: "/login-with-different-user", // redirect to this url
 }
 
-// export async function getServerSideProps({ req }: any) {
-//     const session = await getSession({ req })
-
-//     if (!session) {
-//         console.log(session)
-//     }
-// }
-
-export default AdminHome;
+export default AdminDashboard;

@@ -17,11 +17,12 @@ const UserSchema = new mongoose.Schema({
     },
     image: {
         type: String,
+        default: ""
     },
     roles: {
         type: String,
         enum: ["Learner", "Manager", "Admin"],
-        default: "Learner"
+        default: ["Learner"]
     },
 }, { timestamps: true })
 
