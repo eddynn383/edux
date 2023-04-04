@@ -7,7 +7,7 @@ import sx from '../styles/layout.module.scss'
 
 const AuthLayout = ({ children }:any) => {
     const { resolvedTheme  } = useTheme()
-    console.log(resolvedTheme )
+    // console.log(resolvedTheme )
     let logo = resolvedTheme  === 'dark' ? DarkLogo : LightLogo
 
     return (

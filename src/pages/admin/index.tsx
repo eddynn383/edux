@@ -1,14 +1,11 @@
-// pages/admin.tsx
-import Link from "next/link";
 import React from "react";
-import { signOut, useSession } from "next-auth/react";
 import Button from '@/components/Button'
 import Alert from '@/components/Alert';
+import Loading from "@/components/Loading";
 import MainLayout from "@/layouts/MainLayout";
 
 const AdminDashboard = () => {
-    const { data: session } = useSession()
-    console.log(session)
+
     return (
         <MainLayout>
             <div className="container">
@@ -32,13 +29,14 @@ const AdminDashboard = () => {
                 </div>
             </div>
         </MainLayout>
-    );
-};
+    )
+} 
 
 AdminDashboard.auth = {
-    roles: ["Admin"],
-    loading: <p>LOading...</p>,
-    unauthorized: "/login-with-different-user", // redirect to this url
+    roles: ["ADMIN"],
+    loading: <Loading />,
+    unauthorized: "/unauthorized", // redirect to this url
 }
+
 
 export default AdminDashboard;

@@ -65,6 +65,12 @@
                 height: auto;
             }
         }
+        .menu {
+            padding-top: var(--layout-menu-padding-top, var(--layout-menu-padding, var(--padding-450, 18px)));
+            padding-bottom: var(--layout-menu-padding-bottom, var(--layout-menu-padding, var(--padding-450, 18px)));
+            padding-left: var(--layout-menu-padding-left, var(--layout-menu-padding, var(--padding-450, 18px)));
+            padding-right: var(--layout-menu-padding-right, var(--layout-menu-padding, var(--padding-450, 18px)));
+        }
     }
     .right {
         .inner {

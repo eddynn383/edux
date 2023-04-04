@@ -1,6 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import dbConnect from "../../lib/dbConnect";
-import User from "../../models/user.model";
 import bcrypt from "bcrypt"
 
 interface ResponseData {
@@ -19,9 +17,9 @@ const validateForm = async (email: string, password: string) => {
         return { error: "Email is invalid" };
     }
 
-    await dbConnect('UsersDB');
-
-    const emailUser = await User.findOne({ email: email });
+    const emailUser = await prisma.user.findUnique({
+        where: { email: email }
+    })
 
     if (emailUser) {
         return { error: "Email already exists" };
@@ -35,33 +33,35 @@ const validateForm = async (email: string, password: string) => {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method !== 'POST') {
-        return res.status(405).json({
-            message: 'Method not allowed'
-        });
+    if (req.method === 'POST') {
+
+        try {
+            const { name, email, password, roles } = req.body;
+
+            console.log(req.body)
+            const errorMessage = await validateForm(email, password);
+            if (errorMessage) {
+                return res.status(400).json(errorMessage as ResponseData);
+            }
+            // encrypt the password
+            const hashedPassword = await bcrypt.hash(password, 12);
+            
+            // insert the new user into database
+            const user:any = await prisma.user.create({
+                data: {
+                    name,
+                    email,
+                    password: hashedPassword,
+                    roles
+                }
+            })
+        
+            return res.status(200).json(user)
+        } catch (error:any) {
+            return res.status(500).json({error: error.message})
+        }
     }
 
-    const { name, email, password, roles } = req.body;
-    const errorMessage = await validateForm(email, password);
-
-    if (errorMessage) {
-        return res.status(400).json(errorMessage as ResponseData);
-    }
-
-    // encrypt the password
-    const hashedPassword = await bcrypt.hash(password, 12);
-
-    // insert the new user into database
-    const newUser = new User({
-        name,
-        email,
-        password: hashedPassword,
-        roles
-    });
-
-    newUser.save().then(() => {
-        res.status(200).json({ msg: "Successfuly created new User: " + newUser })
-    }).catch((err: String) => {
-        res.status(400).json({ error: "Error on '/api/register': " + err })
-    })
+    res.setHeader('Allow', ['GET', 'POST'])
+    res.status(425).end(`Method ${req.method} is not allowed.`)
 }

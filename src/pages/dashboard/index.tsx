@@ -4,12 +4,10 @@ import { authOptions } from "../api/auth/[...nextauth]"
 import { getServerSession } from "next-auth/next"
 import type { GetServerSidePropsContext } from "next";
 import MainLayout from "@/layouts/MainLayout";
+import Loading from "@/components/Loading";
 
 const Dashboard = ({data}:any) => {
     const { data: session, status } = useSession()
-
-    // console.log(session)
-    // console.log(status)
     return (
         <MainLayout data={data}>
             <div className="container">
@@ -24,21 +22,11 @@ const Dashboard = ({data}:any) => {
     );
 };
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-    const session = await getServerSession(context.req, context.res, authOptions)
-
-    if (!session) {
-        return {
-            redirect: {
-                destination: '/auth/login',
-                permanent: false
-            }
-        }
-    }
-
-    return {
-        props: { session }
-    }
+Dashboard.auth = {
+    roles: ["LEARNER"],
+    loading: <Loading />,
+    unauthorized: "/unauthorized", // redirect to this url
 }
+
 
 export default Dashboard;

@@ -12,7 +12,6 @@ import Google from "../../assets/images/google.svg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faEnvelope, faEye, faEyeSlash, faShield, faUnlock, faLock } from "@fortawesome/free-solid-svg-icons";
 import sx from '../../styles/register.module.scss';
-import axios from "axios";
 
 
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -25,7 +24,6 @@ export default function Register() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [passwordConfirm, setPasswordConfirm] = useState('')
-    const [role, setRole] = useState('user')
 
     const [showError, setShowError] = useState(false)
     const [errorMsg, setErrorMsg] = useState('')
@@ -40,9 +38,6 @@ export default function Register() {
     const handleSubmit = async (e:any) => {
         e.preventDefault()
 
-        // console.log(checkedEmail)
-        // console.log(checkedPassword)
-
         if (!checkedEmail) {
             setErrorMsg('The email is not valid!')
             setShowError(true)
@@ -55,24 +50,15 @@ export default function Register() {
             return
         }
 
-        // const response = await fetch('/api/register', {
-        //     method: 'POST',
-        //     body: JSON.stringify({ email, password, role }),
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     }
-        // })
-
-        const response = await axios.post(
-            '/api/register', 
-            { email, password, role },
-            {
-                headers: {
-                  Accept: "application/json",
-                  "Content-Type": "application/json",
-                },
-            }
-        ).then(async () => {
+        const response = await fetch('/api/register', {
+            method: 'POST',
+            cache: "no-cache",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password })
+        }).then(async () => {
             console.log("The user was successfully registred");
             router.push('/auth/login');
         }).catch((error) => {

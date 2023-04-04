@@ -1,0 +1,11 @@
+.menu {
+    display: flex;
+    ul {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        gap: var(--menu-links-gap, var(--gap-100, 4px));
+        width: 100%;
+    }
+}

@@ -1,4 +1,3 @@
-import React from 'react'
 import sx from '../../styles/component.module.scss'
 import { IPropsAlert } from './interface'
 import StatusIcon from '../StatusIcon'

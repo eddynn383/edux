@@ -1,0 +1,33 @@
+.menu-link {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: var(--menu-link-gap, var(--gap-200, 10px));
+    font-size: var(--menu-link-font-size, var(--font-size-400, 16px));
+    line-height: var(--menu-link-line-height, var(--line-height-100, 1));
+    border-radius: var(--menu-link-border-radius, var(--border-radius-100, 4px));
+    padding-top: var(--menu-link-padding-top, var(--menu-link-padding, var(--padding-300, 12px)));
+    padding-bottom: var(--menu-link-padding-bottom, var(--menu-link-padding, var(--padding-300, 12px)));
+    padding-left: var(--menu-link-padding-left, var(--menu-link-padding, var(--padding-300, 12px)));
+    padding-right: var(--menu-link-padding-right, var(--menu-link-padding, var(--padding-300, 12px)));
+    transition: all .3s ease-in-out;
+    cursor: pointer;
+}
+
+[data-theme="light"] .menu-link {
+    background-color: var(--menu-link-background-default, var(--background-color-100, #ffffff));
+    color: var(--menu-link-color-default, var(--text-color-200, #363636));
+    &:hover {
+        background-color: var(--menu-link-background-hover, var(--accent-color-400, #1C6BBA));
+        color: var(--menu-link-color-hover, var(--text-color-950, #ffffff));
+    }
+} 
+
+[data-theme="dark"] .menu-link {
+    background-color: var(--menu-link-background, var(--background-color-950, #242424));
+    color: var(--menu-link-color-default, var(--text-color-900, #F2F2F2));
+    &:hover {
+        background-color: var(--menu-link-background-hover, var(--accent-color-400, #1C6BBA));
+        color: var(--menu-link-color-hover, var(--text-color-950, #ffffff));
+    }
+}

@@ -18,6 +18,7 @@ import Github from "../../assets/images/github.svg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import sx from "../../styles/login.module.scss"
+import Loading from "@/components/Loading";
 
 export default function Login() {
 
@@ -49,6 +50,7 @@ export default function Login() {
         if(result?.ok) {
             router.push(callbackUrl)
         }
+        console.log("It works")
     }
 
     // Google Handler function
@@ -96,7 +98,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     // If the user is already logged in, redirect.
     // Note: Make sure not to redirect to the same page
     // To avoid an infinite loop!
-    // console.log(session)
 
     if (session) {
         return { redirect: { destination: "/" } };
