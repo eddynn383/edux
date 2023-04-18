@@ -1,0 +1,20 @@
+.chip {
+    &[data-theme="light"][data-status="default"] {
+        background-color: var(--chip-light-background-default, var(--background-color-200, #E1E6E9));
+        color: var(--chip-light-text-default, var(--text-color-200, #363636));
+    }
+    &[data-theme="dark"][data-status="default"] {
+        background-color: var(--chip-dark-background-default, var(--background-color-850, #343738));
+        color: var(--chip-dark-text-default, var(--text-color-950, #FFFFFF));
+    }
+
+
+    &[data-size="small"] {
+        padding: var(--chip-small-padding-y, var(--padding-100, 4px)) var(--chip-small-padding-x, var(--padding-200, 8px));
+        border-radius: var(--chip-small-border-radius, var(--border-radius-100, 4px));
+    }
+    &[data-size="medium"] {
+        padding: var(--chip-small-padding-y, var(--padding-100, 4px)) var(--chip-small-padding-x, var(--padding-200, 8px));
+        border-radius: var(--chip-small-border-radius, var(--border-radius-100, 4px));
+    }
+}

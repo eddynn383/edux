@@ -88,11 +88,9 @@ model NavigationItem {
     children       NavigationItem[] @relation("ChildOf")
     createdBy      User?            @relation(name: "CreatedById", fields: [createdById], references: [id])
     createdById    String           @db.ObjectId
-    createdByEmail String           @db.ObjectId
     createdAt      DateTime         @default(now())
     updatedBy      User?            @relation(name: "UpdatedById", fields: [updatedById], references: [id])
     updatedById    String?          @db.ObjectId
-    updatedByEmail String?          @db.ObjectId
     updatedAt      DateTime?        @updatedAt
     allowedUsers   String[]
 

@@ -29,10 +29,10 @@ interface DataType {
     // updatedBy: Date;
 }
 
-const Navigation = ({data}:any) => {
+const Navigation = () => {
     const { data: session, status } = useSession()
-    const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json());
-    const { data: navigationData, mutate } = useSWR('/api/navigation', fetcher);
+    // const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json());
+    // const { data: navigationData, mutate } = useSWR('/api/navigation', fetcher);
     const [ selectedRows, setSelectedRows ] = useState<React.Key[]>();
     const [ drawerState, setDrawerState ] = useState("close");
     const [ label, setLabel ] = useState<string>();
@@ -66,7 +66,7 @@ const Navigation = ({data}:any) => {
             dataIndex: 'createdByEmail',
             key: 'createdByEmail',
             render: (value:any) => {
-                return <Chip>{value}</Chip>
+                return <Chip theme={theme} size="medium" status="default" >{value}</Chip>
             }
         },
         {
@@ -103,13 +103,13 @@ const Navigation = ({data}:any) => {
     };
 
     const fetchNavigationItems = async () => {
-        const response = await fetch('/api/navigation');
+        const response = await fetch('/api/navigation', { method: 'GET' });
         const data = await response.json();
         return data;
     };
 
     const fetchUserById = async (id:any) => {
-        const response = await fetch(`/api/users?id=${id}`);
+        const response = await fetch(`/api/users?id=${id}`, { method: 'GET' });
         const user = await response.json();
         return user;
     };
@@ -123,7 +123,7 @@ const Navigation = ({data}:any) => {
             }
             console.log(response);
             console.log('Navigation item deleted successfully');
-            mutate()
+            // mutate()
         } catch (error) {
             console.error('Error deleting navigation item:', error);
         }
@@ -187,7 +187,7 @@ const Navigation = ({data}:any) => {
 
     useEffect(() => {
         fetchNavigationItems().then((data) => {
-            console.log(data)
+            // console.log(data)
             Promise.all(
                 data.map((item:any) => 
                     fetchUserById(item.createdById).then((user) => ({
@@ -196,7 +196,7 @@ const Navigation = ({data}:any) => {
                     }))
                 )
             ).then((mergedData:any) => {
-                console.log(mergedData)
+                // console.log(mergedData)
                 setDataSource(mergedData)
             });
         });
@@ -204,7 +204,7 @@ const Navigation = ({data}:any) => {
 
     return (
         
-        <MainLayout data={data}>
+        <MainLayout>
             
             <Toolbar right={
                 <>      
@@ -231,7 +231,7 @@ const Navigation = ({data}:any) => {
                     }}
                 >
                     {
-                        navigationData ? (
+                        dataSource ? (
                             <Table
                                 rowSelection={rowSelection}
                                 columns={columns}

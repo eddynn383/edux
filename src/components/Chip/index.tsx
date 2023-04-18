@@ -1,8 +1,8 @@
+import sx from '../../styles/component.module.scss'
 
-
-const Chip = ({ children }: any) => {
+const Chip = ({ children, theme="light", size="small", status="default" }: any) => {
     return (
-        <div className="chip" >{children}</div>
+        <span className={sx["chip"]} data-theme={theme} data-size={size} data-status={status} >{children}</span>
     )
 }
 
