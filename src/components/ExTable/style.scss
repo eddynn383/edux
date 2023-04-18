@@ -1,0 +1,22 @@
+.extable {
+    color: red;
+    .label {
+        background-color: red;
+    }
+    .ant-table {
+        color: blue;
+        &[data-theme="light"] {
+            background-color: var(--extable-light-background-default, var(--background-color-100, #fff))
+        }
+        &[data-theme="dark"] {
+            background-color: var(--extable-dark-background-default, var(--background-color-950, #242424))
+        }
+    }
+    // &-cell {
+    //     background-color: red;
+    // }
+    .ant-table {
+        padding: 10px !important;
+    }
+} 
+

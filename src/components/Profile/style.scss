@@ -1,0 +1,64 @@
+.profile {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 4px;
+    cursor: pointer;
+    &-left,
+    &-right {
+        display: flex;
+    }
+    &-right {
+        flex-direction: column;
+        padding: 0 4px;
+    }
+    &-name {
+        font-size: var(--profile-name-font-size, var(--font-size-300, 14px));
+        font-weight: var(--profile-name-font-weight, var(--font-weight-500, 500));
+        line-height: var(--profile-name-line-height, var(--line-height-200, 1.2));
+    }
+    &-role {
+        font-size: var(--profile-role-font-size, var(--font-size-200, 12px));
+        font-weight: var(--profile-role-font-weight, var(--font-weight-400, 400));
+        line-height: var(--profile-role-line-height, var(--line-height-200, 1.2));
+    }
+
+    &[data-theme="light"] {
+        background-color: var(--profile-light-background-default, var(--background-color-150, #F0F2F4));
+        &:not(:disabled):hover {
+            background-color: var(--profile-light-background-hover, var(--background-color-200, #E1E6E9));
+        }
+        & .profile-name {
+            color: var(--profile-name-light-text-color, var(--text-color-150, #282828));
+        }
+        & .profile-role {
+            color: var(--profile-role-light-text-color, var(--text-color-600, #959595));
+        }
+    }
+    &[data-theme="dark"] {
+        background-color: var(--profile-dark-background-default, var(--background-color-900, #2E2F30));
+        &:not(:disabled):hover {
+            background-color: var(--profile-dark-background-hover, var(--background-color-850, #343738));
+        }
+        & .profile-name {
+            color: var(--profile-name-dark-text-color, var(--text-color-950, #ffffff));
+        }
+        & .profile-role {
+            color: var(--profile-role-dark-text-color, var(--text-color-600, #959595));
+        }
+    }
+    &[data-size="small"] {
+        padding: var(--profile-small-padding, var(--padding-100, 4px));
+        gap: var(--profile-small-gap, var(--padding-100, 4px));
+        border-radius: var(--profile-small-border-radius, var(--border-radius-200, 8px));
+    }
+    &[data-size="medium"] {
+        padding: var(--profile-medium-padding, var(--padding-100, 4px));
+        gap: var(--profile-medium-gap, var(--padding-100, 4px));
+        border-radius: var(--profile-medium-border-radius, var(--border-radius-200, 8px))
+    }
+    &[data-size="large"] {
+        padding: var(--profile-large-padding, var(--padding-100, 4px));
+        gap: var(--profile-large-gap, var(--padding-100, 4px));
+        border-radius: var(--profile-large-border-radius, var(--border-radius-200, 8px))
+    }
+}

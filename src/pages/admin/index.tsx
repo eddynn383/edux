@@ -12,15 +12,15 @@ const AdminDashboard = () => {
                 <div className="grid place-content-center min-h-screen">
                     <div style={{maxWidth: "700px"}}>
                         <div style={{display: "flex", flexDirection: "column", gap: '20px'}}>
-                            <Alert status="success" variant="solid" action={<Button size="small" variant="text" status="success">Close</Button>}>
+                            <Alert status="success" variant="solid" action={<Button type="button" size="small" variant="text" status="success">Close</Button>}>
                                 <Alert.Title>Error</Alert.Title>
                                 <Alert.Description>This is an error text</Alert.Description>
                             </Alert>
-                            <Alert status="success" variant="outline" action={<Button size="small" variant="text" status="success">Close</Button>}>
+                            <Alert status="success" variant="outline" action={<Button type="button" size="small" variant="text" status="success">Close</Button>}>
                                 <Alert.Title>Error</Alert.Title>
                                 <Alert.Description>This is an error text</Alert.Description>
                             </Alert>
-                            <Alert status="success" variant="standard" action={<Button size="small" variant="text" status="success">Close</Button>}>
+                            <Alert status="success" variant="standard" action={<Button type="button" size="small" variant="text" status="success">Close</Button>}>
                                 <Alert.Title>Error</Alert.Title>
                                 <Alert.Description>This is an error text</Alert.Description>
                             </Alert>

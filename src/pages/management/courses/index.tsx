@@ -1,6 +1,10 @@
-const Courses = () => {
+import MainLayout from "@/layouts/MainLayout"
+
+const Courses = ({data}:any) => {
     return (
-        <div>Courses</div>
+        <MainLayout data={data}>
+            <div>Courses</div>
+        </MainLayout>
     )
 }
 

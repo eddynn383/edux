@@ -1,0 +1,14 @@
+.body {
+    height: 100%;
+    &-inner {
+        height: 100%;
+    }
+    &[data-theme="light"] {
+        background-color: var(--body-light-background-color, var(--background-color-150, #F0F2F4));
+        border-color: var(--body-light-separator-color, var(--background-color-200, #E1E6E9))
+    }
+    &[data-theme="dark"] {
+        background-color: var(--body-dark-background-color, var(--background-color-900, #2E2F30));
+        border-color: var(--body-dark-separator-color, var(--background-color-850, #343738))
+    }
+}

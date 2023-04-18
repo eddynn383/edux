@@ -1,0 +1,43 @@
+.avatar {
+    display: inline-block;
+    vertical-align: top;
+    border-width: var(--avatar-border-width, var(--border-width-100, 1px));
+    border-style: solid;
+    overflow: hidden;
+    &[data-theme="light"] {
+        background-color: var(--avatar-light-background-color, var(--background-color-150, #F0F2F4));
+        border-color: var(--avatar-light-border-color, var(--background-color-200, #E1E6E9));
+    }
+    &[data-theme="dark"] {
+        background-color: var(--avatar-dark-background-color, var(--background-color-900, #2E2F30));
+        border-color: var(--avatar-dark-border-color, var(--background-color-850, #343738));
+    }
+    &[data-size="small"] {
+        width: var(--avatar-width-small, var(--size-600, 24px));
+        height: var(--avatar-height-small, var(--size-600, 24px));
+    }
+    &[data-size="medium"] {
+        width: var(--avatar-width-medium, var(--size-900, 24px));
+        height: var(--avatar-height-medium, var(--size-900, 24px));
+    }
+    &[data-size="large"] {
+        width: var(--avatar-width-medium, var(--size-1100, 44px));
+        height: var(--avatar-height-medium, var(--size-1100, 44px));
+    }
+    &[data-size="small"][data-type="square"] {
+        border-radius: var(--avatar-border-radius-small, var(--border-radius-100, 4px));
+    }
+    &[data-size="medium"][data-type="square"] {
+        border-radius: var(--avatar-border-radius-medium, var(--border-radius-100, 4px));
+    }
+    &[data-size="large"][data-type="square"] {
+        border-radius: var(--avatar-border-radius-large, var(--border-radius-200, 8px));
+    }
+    &[data-type="circle"] {
+        border-radius: 50%;
+    }
+    & > img {
+        width: 100%;
+        height: 100%;
+    }
+}

@@ -1,11 +1,12 @@
 import { useSession } from "next-auth/react"
-import Image from 'next/image'
 import ProfileAvatar from '../../assets/images/profile-avatar.png'
+import Avatar from "../Avatar"
+import sx from '../../styles/component.module.scss'
 
-const Profile = () => {
+const Profile = ({data, id, theme, size}:any) => {
     const { data: session, status } = useSession()
-    console.log('PROFILE')
-    console.log(session)
+    // console.log('PROFILE')
+    // console.log(session)
     // console.log(ProfileAvatar)
     if (status === "loading") {
         return <div>Loading...</div>
@@ -16,14 +17,19 @@ const Profile = () => {
     }
     
     const user = session?.user
-    const {image, email, roles}:any = user
+    const {image, name, email, roles}:any = user
     const role = roles[roles.length - 1]
     
-    console.log(image)
+    // console.log(image)
     return (
-        <div className="profile">
-            <Image className="profile" width="36" height="36" src={image ? image : ProfileAvatar} alt={email} /> 
-            <p>{role}</p>
+        <div className={sx.profile} id={id} data-theme={theme} data-size={size}>
+            <div className={sx["profile-left"]}>
+                <Avatar src={image ? image : ProfileAvatar} alt={email} theme={theme} size={size} type="square"/>
+            </div>
+            <div className={sx["profile-right"]}>
+                <span className={sx["profile-name"]}>{name ? name : email}</span>
+                {size !== "small" && <span className={sx["profile-role"]}>{role}</span>}
+            </div>
         </div>
     )
 }

@@ -1,25 +1,23 @@
 import { useEffect, useState } from "react";
-import imageUrl from '../assets/images/login.jpg'
+import { useSession } from "next-auth/react"
+import { useTheme } from 'next-themes'
+import Image from 'next/image'
+import useSWR from "swr"
+import Menu from "../components/Menu"
+import PageHead from "@/modules/PageHead";
+import PageBody from "@/modules/PageBody";
 import LightLogo from '../assets/images/logo-light.svg'
 import DarkLogo from '../assets/images/logo-dark.svg'
-import Image from 'next/image'
-import { useTheme } from 'next-themes'
 import sx from '../styles/layout.module.scss'
-import Menu from "../components/Menu"
-import { useSession } from "next-auth/react"
-import { NextApiRequest, NextApiResponse } from "next";
-import { getUserByEmail } from "@/utils/users";
-import useSWR from "swr"
-import PageHeader from "@/modules/PageHeader";
 
 const MainLayout = ({ children }:any) => {
-    const { resolvedTheme } = useTheme()
+    const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json());
+    const { resolvedTheme:theme } = useTheme()
     const { data: session, status } = useSession()
     const [ menuData, setMenuData ] = useState(null);
-    const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json());
     const { data: navigationData } = useSWR('/api/navigation', fetcher);
 
-    let logo = resolvedTheme === 'dark' ? DarkLogo : LightLogo
+    let logo = theme === 'dark' ? DarkLogo : LightLogo
 
     useEffect(() => {
         setMenuData(navigationData)
@@ -35,16 +33,16 @@ const MainLayout = ({ children }:any) => {
                             <Image className={sx.volvo} src={logo} alt="Volvo" />
                         </div>
                         <div className={sx.menu}>
-                            <Menu data={menuData} theme={resolvedTheme} />
+                            <Menu data={menuData} theme={theme} />
                         </div>
                     </div>
                 </div>
                 <div className={sx.right}>
                     <div className={sx.inner}>
-                        <PageHeader />
-                        <div className="page-body">
+                        <PageHead theme={theme} />
+                        <PageBody theme={theme} >
                             {children}
-                        </div>
+                        </PageBody>
                     </div>
                 </div>
             </div>

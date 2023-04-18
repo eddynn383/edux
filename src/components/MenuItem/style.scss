@@ -1,3 +1,7 @@
 .menu-item {
-    display: flex
+    display: flex; 
+    &[data-active="true"] .menu-link {
+        background-color: var(--menu-link-background-active, var(--accent-color-400, #1C6BBA));
+        color: var(--menu-link-color-active, var(--text-color-950, #ffffff))
+    }
 }

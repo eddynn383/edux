@@ -63,6 +63,7 @@
     --size-025: 1px;
     --size-050: 2px;
     --size-100: 4px;
+    --size-150: 6px;
     --size-200: 8px;
     --size-250: 10px;
     --size-300: 12px;
@@ -74,6 +75,8 @@
     --size-750: 30px;
     --size-800: 32px;
     --size-900: 36px;
+    --size-1000: 40px;
+    --size-1100: 44px;
 
     // Border Size
     --border-width-000: 0;
@@ -98,6 +101,7 @@
 
     // Padding
     --padding-100: var(--size-100);
+    --padding-150: var(--size-150);
     --padding-200: var(--size-200);
     --padding-250: var(--size-250);
     --padding-300: var(--size-300);
@@ -142,12 +146,12 @@
     --font-weight-500: 500;
     --font-weight-700: 700;
 
-    // Font-weight
+    // Line-height
     --line-height-100: 1;
     --line-height-200: 1.2;
     --line-height-300: 1.4;
 
-    // Font-weight
+    // Letter-spacing
     --letter-space-000: 0;
     --letter-space-100: 0.1px;
     --letter-space-200: 0.2px;

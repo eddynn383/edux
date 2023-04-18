@@ -2,9 +2,9 @@ import sx from '../../styles/component.module.scss'
 import { IPropsAlert } from './interface'
 import StatusIcon from '../StatusIcon'
 
-const Alert = ({cn, id, theme="light", variant="solid", status, action, children}: IPropsAlert) => {
+const Alert = ({id, theme="light", variant="solid", status, action, children}: IPropsAlert) => {
     return (
-        <div className={sx.alert} data-theme={theme} data-variant={variant} data-status={status}>
+        <div className={sx["alert"]} id={id} data-theme={theme} data-variant={variant} data-status={status}>
             <div className={sx['alert-icon']}>
                 <StatusIcon status={status}/>
             </div>

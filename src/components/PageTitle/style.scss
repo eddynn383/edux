@@ -1,0 +1,9 @@
+.page-title {
+    text-transform: capitalize;
+    &[data-theme="light"] {
+        color: var(--page-title-light-text-color, var(--text-color-100, #181818));
+    }
+    &[data-theme="dark"] {
+        color: var(--page-title-dark-text-color, var(--text-color-950, #ffffff));
+    }
+}

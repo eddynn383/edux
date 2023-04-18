@@ -4,14 +4,19 @@ import NoLink from '../MenuNoLink'
 import MenuDropdown from '../MenuDropdown'
 import { IPropsMenuItem } from './interface'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useRouter } from "next/router"
 import sx from '../../styles/component.module.scss'
 
 const MenuItem = ({item, depthLevel, theme}:IPropsMenuItem) => {
     const [show, setShow] = useState(false)
-    console.log("***** MENU ITEM THEME *****")
-    console.log(theme)
+    const router = useRouter()
+    const currentPageName = router.pathname.replace("/", "")
+    // console.log(router)
+    // console.log(item.link)
+    // console.log("***** MENU ITEM THEME *****")
+    // console.log(theme)
     return (
-        <li className={sx['menu-item']}>
+        <li className={sx['menu-item']} data-active={router.pathname === item.link ? true : false}>
             {
                 item.children ? (
                     <>

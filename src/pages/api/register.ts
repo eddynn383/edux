@@ -17,7 +17,7 @@ const validateForm = async (email: string, password: string) => {
         return { error: "Email is invalid" };
     }
 
-    const emailUser = await prisma.user.findUnique({
+    const emailUser = await prisma?.user.findUnique({
         where: { email: email }
     })
 
@@ -47,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const hashedPassword = await bcrypt.hash(password, 12);
             
             // insert the new user into database
-            const user:any = await prisma.user.create({
+            const user:any = await prisma?.user.create({
                 data: {
                     name,
                     email,

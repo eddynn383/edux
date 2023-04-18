@@ -11,8 +11,10 @@ const Menu = ({data, theme}: IPropsMenu) => {
         active = !active
     }
 
-    console.log("***** MENU THEME *****")
-    console.log(theme)
+    // console.log("***** MENU THEME *****")
+    // console.log(theme)
+    // console.log("***** MENU DATA *****")
+    // console.log(data)
 
     return (
         <nav className={sx.menu}>

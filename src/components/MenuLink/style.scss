@@ -5,7 +5,7 @@
     gap: var(--menu-link-gap, var(--gap-200, 10px));
     font-size: var(--menu-link-font-size, var(--font-size-400, 16px));
     line-height: var(--menu-link-line-height, var(--line-height-100, 1));
-    border-radius: var(--menu-link-border-radius, var(--border-radius-100, 4px));
+    border-radius: var(--menu-link-border-radius, var(--border-radius-200, 8px));
     padding-top: var(--menu-link-padding-top, var(--menu-link-padding, var(--padding-300, 12px)));
     padding-bottom: var(--menu-link-padding-bottom, var(--menu-link-padding, var(--padding-300, 12px)));
     padding-left: var(--menu-link-padding-left, var(--menu-link-padding, var(--padding-300, 12px)));
@@ -15,19 +15,23 @@
 }
 
 [data-theme="light"] .menu-link {
-    background-color: var(--menu-link-background-default, var(--background-color-100, #ffffff));
-    color: var(--menu-link-color-default, var(--text-color-200, #363636));
+    background-color: var(--menu-light-link-background-default, var(--background-color-100, #ffffff));
+    border: var(--border-width-100) solid var(--menu-light-link-border-default, var(--background-color-100, #ffffff));
+    color: var(--menu-light-link-color-default, var(--text-color-200, #363636));
     &:hover {
-        background-color: var(--menu-link-background-hover, var(--accent-color-400, #1C6BBA));
-        color: var(--menu-link-color-hover, var(--text-color-950, #ffffff));
+        background-color: var(--menu-light-link-background-hover, var(--background-color-200, #E1E6E9));
+        border: var(--border-width-100) solid var(--menu-light-link-border-hover, var(--background-color-200, #E1E6E9));
+        color: var(--menu-light-link-color-hover, var(--text-color-950, #ffffff));
     }
 } 
 
 [data-theme="dark"] .menu-link {
-    background-color: var(--menu-link-background, var(--background-color-950, #242424));
+    background-color: var(--menu-link-background-hover, var(--background-color-950, #242424));
+    border: var(--border-width-100) solid var(--menu-link-border-hover, var(--background-color-950, #242424));
     color: var(--menu-link-color-default, var(--text-color-900, #F2F2F2));
     &:hover {
-        background-color: var(--menu-link-background-hover, var(--accent-color-400, #1C6BBA));
+        background-color: var(--menu-link-background-hover, var(--background-color-850, #343738));
+        border: var(--border-width-100) solid var(--menu-link-border-hover, var(--background-color-850, #242424));
         color: var(--menu-link-color-hover, var(--text-color-950, #ffffff));
     }
 }

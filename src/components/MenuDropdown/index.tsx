@@ -7,8 +7,8 @@ import sx from '../../styles/component.module.scss'
 const MenuDropdown = ({items, parent, show, setShow, depthLevel, theme}:IPropsMenuDropdown) => {
     depthLevel = depthLevel + 1
     const dropdownClass = depthLevel > 1 ? " dropdown-submenu" : ""
-    console.log("***** MENU DROPDOWN THEME *****")
-    console.log(theme)
+    // console.log("***** MENU DROPDOWN THEME *****")
+    // console.log(theme)
     return (
         <>
             {items.length > 0 && (

@@ -74,8 +74,9 @@
     }
     .right {
         .inner {
+            display: flex;
+            flex-direction: column;
             height: 100%;
-            padding: var(--padding-800);
             > * {
                 width: 100%;
             }

@@ -1,0 +1,12 @@
+.table-cell {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: var(--text-color-200);
+    padding: var(--padding-200) var(--padding-200);
+    text-align: left;
+}

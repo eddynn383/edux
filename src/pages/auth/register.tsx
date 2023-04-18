@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useTheme } from 'next-themes'
+import { getProviders, signIn } from "next-auth/react"
 import Head from "next/head";
 import Image from "next/image"
 import Link from "next/link";
@@ -9,6 +10,7 @@ import Input from '@/components/Input';
 import Button from '@/components/Button';
 import Alert from "@/components/Alert";
 import Google from "../../assets/images/google.svg"
+import Github from "../../assets/images/github.svg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faEnvelope, faEye, faEyeSlash, faShield, faUnlock, faLock } from "@fortawesome/free-solid-svg-icons";
 import sx from '../../styles/register.module.scss';
@@ -65,6 +67,16 @@ export default function Register() {
             console.log(error);
         });
     }
+
+    // Google Handler function
+    async function handleGoogleSignin(){
+        signIn('google', { callbackUrl : "http://localhost:3000"})
+    }
+
+    // Google Handler function
+    async function handleGithubSignin(){
+        signIn('github', { callbackUrl : "http://localhost:3000"})
+    }
     
 
     return (
@@ -79,17 +91,20 @@ export default function Register() {
                 </div>
                 {
                     showError && 
-                    <Alert status="fail" variant="standard" action={<Button size="small" variant="text" status="fail" onClick={() => setShowError(false)}><FontAwesomeIcon icon={faClose} /></Button>}>
+                    <Alert status="fail" variant="standard" action={<Button type="button" size="small" variant="text" status="fail" content="icon" onClick={() => setShowError(false)} theme={theme}><FontAwesomeIcon icon={faClose} /></Button>}>
                         <Alert.Title>Error</Alert.Title>
                         <Alert.Description>{errorMsg}</Alert.Description>
                     </Alert>
                 }
                 <form className={sx.form} onSubmit={handleSubmit}>
-                    <Input cn={sx.email} name="email" type="email" placeholder="Email" size="large" value={email} theme={theme} iconBefore={<FontAwesomeIcon icon={faEnvelope} />} onChange={(e:any) => setEmail(e.target.value)} />
-                    <Input cn={sx.password} name="password" type={`${passType ? "text" : "password"}`} placeholder="Password" size="large" value={password} iconBefore={<FontAwesomeIcon icon={checkedPassword === true ? faLock : faUnlock} />} iconAfter={<Button cn={sx['show-pass']} size="small" variant="text" status="neutral" content="icon" theme={theme} onClick={() => setPassType((prev) => !prev)}><FontAwesomeIcon icon={passType === true ? faEye : faEyeSlash} /></Button>} theme={theme} onChange={(e:any) => setPassword(e.target.value)} />
-                    <Input cn={sx.repassword} name="confirm password" type={`${repassType ? "text" : "password"}`} placeholder="Confirm Password" size="large" value={passwordConfirm} iconBefore={<FontAwesomeIcon icon={confirmPassword === true ? faLock : faUnlock} />} iconAfter={<Button cn={sx['show-pass']} size="small" variant="text" status="neutral" content="icon" theme={theme} onClick={() => setRepassType((prev) => !prev)}><FontAwesomeIcon icon={repassType === true ? faEye : faEyeSlash} /></Button>} theme={theme} onChange={(e:any) => setPasswordConfirm(e.target.value)} />
-                    <Button cn={sx.submit} size="large" type="submit" theme={theme}>Sign up</Button>
-                    <Button cn={sx.submit} size="large" type="button" variant="neutral" status="neutral" theme={theme}><><Image src={Google} alt="Google" width="16"/> Sign Up with Google</></Button>
+                    <Input name="email" type="email" placeholder="Email" size="large" value={email} theme={theme} iconBefore={<FontAwesomeIcon icon={faEnvelope} />} onChange={(e:any) => setEmail(e.target.value)} />
+                    <Input name="password" type={`${passType ? "text" : "password"}`} placeholder="Password" size="large" value={password} iconBefore={<FontAwesomeIcon icon={checkedPassword === true ? faLock : faUnlock} />} iconAfter={<Button type="button" cn={sx['show-pass']} size="small" variant="text" status="neutral" content="icon" theme={theme} onClick={() => setPassType((prev) => !prev)}><FontAwesomeIcon icon={passType === true ? faEye : faEyeSlash} /></Button>} theme={theme} onChange={(e:any) => setPassword(e.target.value)} />
+                    <Input name="confirm password" type={`${repassType ? "text" : "password"}`} placeholder="Confirm Password" size="large" value={passwordConfirm} iconBefore={<FontAwesomeIcon icon={confirmPassword === true ? faLock : faUnlock} />} iconAfter={<Button type="button" cn={sx['show-pass']} size="small" variant="text" status="neutral" content="icon" theme={theme} onClick={() => setRepassType((prev) => !prev)}><FontAwesomeIcon icon={repassType === true ? faEye : faEyeSlash} /></Button>} theme={theme} onChange={(e:any) => setPasswordConfirm(e.target.value)} />
+                    <Button size="large" type="submit" theme={theme}>Sign up</Button>
+                    <div style={{'display': 'flex', 'gap': '16px'}}>
+                    <Button size="large" type="button" variant="neutral" status="neutral" surface="2" theme={theme} style={{"width": "100%"}} onClick={handleGoogleSignin}><Image src={Google} alt="Google" width="16"/></Button>
+                        <Button size="large" type="button" variant="neutral" status="neutral" surface="2" theme={theme} style={{"width": "100%"}} onClick={handleGithubSignin}><Image src={Github} alt="Github" width="16"/></Button>
+                    </div>
                 </form>
                 <p className={sx.link}>Already have an account? <Link href="/auth/login">Sign in</Link></p>
             </div>

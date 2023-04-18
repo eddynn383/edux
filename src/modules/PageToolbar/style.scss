@@ -1,0 +1,16 @@
+.toolbar {
+    display: flex;
+    padding: var(--toolbar-padding, var(--padding-450, 18px));
+    justify-content: space-between;
+    &-left,
+    &-right {
+        display: flex;
+        gap: var(--toolbar-gap, var(--gap-300, 12px));
+    }
+    &-left {
+        align-self: flex-start;
+    }
+    &-right {
+        align-self: flex-end;
+    }
+}

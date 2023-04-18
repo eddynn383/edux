@@ -1,6 +1,10 @@
-const Users = () => {
+import MainLayout from "@/layouts/MainLayout"
+
+const Users = ({data}:any) => {
   return (
-    <div>Users</div>
+    <MainLayout data={data}>
+      <div>Users</div>
+    </MainLayout>
   )
 }
 
