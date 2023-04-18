@@ -24,6 +24,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                         }
                     });
                     res.status(200).json(users);
+                } else {
+                    const users = await prisma.user.findMany()
+                    res.status(200).json(users);
                 }
 
                 // Else statement -- To be implemented

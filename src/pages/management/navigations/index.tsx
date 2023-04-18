@@ -18,40 +18,31 @@ import Label from "@/components/Label";
 import Alert from "@/components/Alert";
 import sx from "../../../styles/component.module.scss"
 import Chip from "@/components/Chip";
-import ApiCall from "@/modules/ApiCall";
-import useUserEmail from "@/hooks/useUserEmail";
-import { getUserEmailByID } from "../../../utils/tools"
 
 interface DataType {
     id: React.Key;
     label: string;
     link: string;
     icon: string;
-    createdById: string;
+    createdByEmail: string;
     createdAt: Date;
     // updatedBy: Date;
 }
-
-type getCurrentUser = (id: string) => any
 
 const Navigation = ({data}:any) => {
     const { data: session, status } = useSession()
     const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json());
     const { data: navigationData, mutate } = useSWR('/api/navigation', fetcher);
-    const [ menuData, setMenuData ] = useState<DataType[] | undefined>();
     const [ selectedRows, setSelectedRows ] = useState<React.Key[]>();
     const [ drawerState, setDrawerState ] = useState("close");
     const [ label, setLabel ] = useState<string>();
     const [ link, setLink ] = useState<string>();
     const [ icon, setIcon ] = useState<string>();
-    const [ userId, setUserId ] = useState<string>("");
     // const [ parent, setParent ] = useState();
     const [ errorMsg, setErrorMsg ] = useState('');
     const [ showError, setShowError ] = useState(false);
+    const [ dataSource, setDataSource ] = useState([]);
     const { resolvedTheme:theme } = useTheme()
-    const { email } = useUserEmail(userId)
-
-
       
     const columns: ColumnsType<DataType> = [
         {
@@ -72,28 +63,11 @@ const Navigation = ({data}:any) => {
         },
         {
             title: 'Created By',
-            dataIndex: 'createdById',
-            key: 'createdById',
-            // render: (id:any) => {
-            //     console.log("id din render method:", id)
-            //     console.log(email)
-            //     setUserId(id)
-            //     return email
-            // }
-            render: async (value: any, record: DataType, index: number) => {
-                try {
-                    const res = await fetch(`/api/users?id=${value}`, { method: 'GET' })
-                    const user = await res.json()
-                    return {
-                        children: user.email
-                    }
-                } catch (error) {
-                    return
-                }
-                // const userEmail = await getUserEmailByID(userId);
-                // return userEmail;
+            dataIndex: 'createdByEmail',
+            key: 'createdByEmail',
+            render: (value:any) => {
+                return <Chip>{value}</Chip>
             }
-            // CONTINUEEEE HEREEEEEEEE
         },
         {
             title: 'Created At',
@@ -128,11 +102,17 @@ const Navigation = ({data}:any) => {
         }
     };
 
-    useEffect(() => {
-        if (navigationData) {
-            setMenuData(navigationData)
-        }
-    }, [navigationData, session, mutate])
+    const fetchNavigationItems = async () => {
+        const response = await fetch('/api/navigation');
+        const data = await response.json();
+        return data;
+    };
+
+    const fetchUserById = async (id:any) => {
+        const response = await fetch(`/api/users?id=${id}`);
+        const user = await response.json();
+        return user;
+    };
 
     const deleteHandler = async (id: string | string[] | React.Key[] | undefined) => {
         console.log(id)
@@ -172,31 +152,6 @@ const Navigation = ({data}:any) => {
         }
     }
 
-    const getCurrentUser = async (id: string) => {
-        console.log(id)
-        try {
-            const res = await fetch(`/api/users?id=${id}`, { method: 'GET' })
-            if (!res.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const { email }:any = res.json();
-            console.log("***** CURRENT USER *****")
-            console.log(email)
-            // return email
-        } catch (error) {
-            console.error('Error getting the user:', error);
-        }
-    }
-
-    const teste: (id: string) => any = (id) => {
-        try {
-            console.log("bla bla bla car :))))) " + id)
-            return `id-ul este ${id}`
-        } catch (error) {
-            
-        }
-    }
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
 
@@ -230,15 +185,22 @@ const Navigation = ({data}:any) => {
 
     }
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //       const currentUser = await getCurrentUser(data);
-    //       setEmail(currentUser?.email);
-    //       console.log("***** CURRENT USERS *****")
-    //       console.log(currentUser)
-    //     };
-    //     fetchData();
-    // }, []);
+    useEffect(() => {
+        fetchNavigationItems().then((data) => {
+            console.log(data)
+            Promise.all(
+                data.map((item:any) => 
+                    fetchUserById(item.createdById).then((user) => ({
+                        ...item,
+                        createdByEmail: user.email,
+                    }))
+                )
+            ).then((mergedData:any) => {
+                console.log(mergedData)
+                setDataSource(mergedData)
+            });
+        });
+    }, []);
 
     return (
         
@@ -273,7 +235,7 @@ const Navigation = ({data}:any) => {
                             <Table
                                 rowSelection={rowSelection}
                                 columns={columns}
-                                dataSource={menuData}
+                                dataSource={dataSource}
                                 rowKey="id"
                             />
                         ) : (
