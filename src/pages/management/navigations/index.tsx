@@ -1,52 +1,60 @@
-import { ReactNode, useEffect, useState } from "react";
-import Loading from "@/components/Loading"
-import Button from "@/components/Button";
+import { useEffect, useState } from "react";
 import { ConfigProvider, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import MainLayout from "@/layouts/MainLayout"
 import { useSession } from "next-auth/react"
-import useSWR from "swr"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTheme } from 'next-themes'
+import useMenu from "@/hooks/useMenu";
+import MainLayout from "@/layouts/MainLayout"
+import Toolbar from "@/modules/PageToolbar";
+import Content from "@/modules/PageContent";
 import Drawer from "@/components/Drawer";
 import Form from "@/components/Form";
 import Input from "@/components/Input";
-import Toolbar from "@/modules/PageToolbar";
-import Content from "@/modules/PageContent";
 import InputGroup from "@/components/InputGroup";
 import Label from "@/components/Label";
 import Alert from "@/components/Alert";
-import sx from "../../../styles/component.module.scss"
 import Chip from "@/components/Chip";
+import Loading from "@/components/Loading"
+import Button from "@/components/Button";
+import { Switch } from "antd";
+import Link from "next/link";
+import { DataType } from "./interface";
+import { dateFormat ,configTheme } from "./config";
+import sx from "../../../styles/component.module.scss"
+import Modal from "@/components/Modal";
+import Select from "@/components/Select";
 
-interface DataType {
-    id: React.Key;
-    label: string;
-    link: string;
-    icon: string;
-    createdByEmail: string;
-    createdAt: Date;
-    // updatedBy: Date;
+function isTheme(value: string | undefined): value is "light" | "dark" {
+    return value === "light" || value === "dark";
 }
 
 const Navigation = () => {
     const { data: session, status } = useSession()
-    // const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json());
-    // const { data: navigationData, mutate } = useSWR('/api/navigation', fetcher);
     const [ selectedRows, setSelectedRows ] = useState<React.Key[]>();
-    const [ drawerState, setDrawerState ] = useState("close");
-    const [ label, setLabel ] = useState<string>();
-    const [ link, setLink ] = useState<string>();
-    const [ icon, setIcon ] = useState<string>();
-    // const [ parent, setParent ] = useState();
-    const [ errorMsg, setErrorMsg ] = useState('');
+    const [ drawerState, setDrawerState ] = useState<"open" | "close">("close");
+    const [ modalState, setModalState ] = useState<"open" | "close">("close");
+    const [ label, setLabel ] = useState<string>("");
+    const [ link, setLink ] = useState<string>("");
+    const [ icon, setIcon ] = useState<string>("");
+    const [ action, setAction ] = useState<"add" | "edit">("add");
+    const [ errorMsg, setErrorMsg ] = useState("");
     const [ showError, setShowError ] = useState(false);
     const [ dataSource, setDataSource ] = useState([]);
-    const { resolvedTheme:theme } = useTheme()
+    const [ selectedItemId, setSelectedItemId ] = useState<string>("") 
+    const { resolvedTheme } = useTheme()
+    const theme = isTheme(resolvedTheme) ? resolvedTheme : "light";
+
+    const rowClassName = (record: DataType) => {
+        if (!record.isPublish) {
+          return sx['row-disabled'];
+        }
+        return '';
+    };
       
     const columns: ColumnsType<DataType> = [
         {
-            title: 'Label',
+            title: 'Name',
             dataIndex: 'label',
             key: 'label',
             className: 'label'
@@ -55,11 +63,34 @@ const Navigation = () => {
             title: 'Link',
             dataIndex: 'link',
             key: 'link',
+            render: (value:any) => {
+                return (
+                    <Link href={value} target="_blank" >{value}</Link>
+                )
+            }
         },
         {
             title: 'Icon',
             dataIndex: 'icon',
             key: 'icon',
+            render: (value:any) => {
+                return (
+                    <span>
+                        <FontAwesomeIcon icon={value} /> 
+                        <span>  {value}</span>
+                    </span>
+                )
+            }
+        },
+        {
+            title: 'Publish',
+            dataIndex: 'publish',
+            key: 'publish',
+            render: (_, data:any) => {
+                return (
+                    <Switch defaultChecked={data.isPublish} onChange={() => handlePublishClick(data.id, !data.isPublish)} />
+                )
+            }
         },
         {
             title: 'Created By',
@@ -73,6 +104,29 @@ const Navigation = () => {
             title: 'Created At',
             dataIndex: 'createdAt',
             key: 'createdAt',
+            render: (value:any) => {
+                const date = new Date(value);
+                const formattedDate = date.toLocaleString('ro-RO', dateFormat).replace(',', '');
+                return formattedDate
+            }
+        },
+        {
+            title: 'Updated By',
+            dataIndex: 'updatedByEmail',
+            key: 'updatedByEmail',
+            render: (value:any) => {
+                return <Chip theme={theme} size="medium" status="default" >{value}</Chip>
+            }
+        },
+        {
+            title: 'Updated At',
+            dataIndex: 'updatedAt',
+            key: 'updatedAt',
+            render: (value:any) => {
+                const date = new Date(value);
+                const formattedDate = date.toLocaleString('ro-RO', dateFormat).replace(',', '');
+                return formattedDate
+            }
         },
         {
             title: '',
@@ -80,17 +134,14 @@ const Navigation = () => {
             key: 'x',
             render: (data) => (
                 <div style={{"display": "flex", "gap": "8px"}}>                
-                    <Button type="button" size="small" variant="neutral" status="fail" surface="2" content="icon" theme={theme} onClick={() => deleteHandler(data.id)}>
+                    <Button type="button" title="Delete navigation entry" size="small" variant="neutral" status="fail" surface="2" content="icon" theme={theme} onClick={() => handleDeleteClick(data.id)}>
                         <FontAwesomeIcon icon="trash" />
                     </Button>
-                    <Button type="button" size="small" variant="neutral" status="warning" surface="2" content="icon" theme={theme} onClick={() => cloneHandler(data.id)}>
-                        <FontAwesomeIcon icon="clone" />
-                    </Button>
-                    <Button type="button" size="small" variant="neutral" status="info" surface="2" content="icon" theme={theme} onClick={() => editHandler(data.id)}>
+                    <Button type="button" title="Edit navigation entry" size="small" variant="neutral" status="info" surface="2" content="icon" theme={theme} onClick={() => handleEditClick(data.id)}>
                         <FontAwesomeIcon icon="edit" />
                     </Button>
                 </div>
-            ),
+            )
         }
     ];
     
@@ -99,45 +150,124 @@ const Navigation = () => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
             console.log(selectedRows);
             setSelectedRows(selectedRowKeys)
-        }
+        },
     };
 
-    const fetchNavigationItems = async () => {
+    const getNavigationItems = async () => {
         const response = await fetch('/api/navigation', { method: 'GET' });
         const data = await response.json();
         return data;
     };
 
-    const fetchUserById = async (id:any) => {
-        const response = await fetch(`/api/users?id=${id}`, { method: 'GET' });
-        const user = await response.json();
-        return user;
+    const getUserById = async (id:any) => {
+        if (id) {            
+            const response = await fetch(`/api/users?id=${id}`, { method: 'GET' });
+            const user = await response.json();
+            return user;
+        }
     };
 
-    const deleteHandler = async (id: string | string[] | React.Key[] | undefined) => {
-        console.log(id)
-        try {
-            const response = await fetch(`/api/navigation?ids=${id}`, { method: 'DELETE'})
-            if (!response.ok) {
-                throw new Error('Something went wrong!');
+    const getNavigationData = () => {
+        getNavigationItems().then((data) => {
+            Promise.all(
+                data.map((item:any) => 
+                    Promise.all([
+                        getUserById(item.createdById),
+                        getUserById(item.updatedById)
+                    ]).then(([createdByUser, updatedByUser]) => ({
+                        ...item,
+                        createdByEmail: createdByUser?.email,
+                        updatedByEmail: updatedByUser?.email
+                    }))
+                )
+            ).then((mergedData:any) => {
+                console.log(mergedData)
+                setDataSource(mergedData)
+            });
+        });
+    }
+
+    const saveHandler = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+        e.preventDefault();
+
+        const userID = session?.user?.id
+
+        if (!label) {
+            console.log("error label")
+            setErrorMsg('Label is required!')
+            setShowError(true)
+            return
+        }
+
+        if (!link) {
+            console.log("error link")
+            setErrorMsg('Link is required!')
+            setShowError(true)
+            return
+        }
+
+        if (action === 'add') {
+            const res = await fetch('/api/navigation', {
+                method: 'POST',
+                cache: "no-cache",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ label, link, icon, createdById: userID, updatedById: userID, allowedUsers: [userID]})
+            }).then(async () => {
+                console.log("The navigation entry was successfully registred!");
+                getNavigationData()
+                setDrawerState('close')
+
+                setLabel('')
+                setLink('')
+                setIcon('')
+            }).catch((error) => {
+                console.log(error)
+            });
+        } else {
+            if (selectedItemId) {  
+                console.log(selectedItemId)
+                const res = await fetch(`/api/navigation?id=${selectedItemId}`, {
+                    method: 'PUT',
+                    cache: "no-cache",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ label, link, icon, updatedById: userID})
+                }).then(async () => {
+                    console.log("The navigation entry was successfully edited!");
+                    getNavigationData()
+                    setDrawerState('close')
+
+                    setLabel('')
+                    setLink('')
+                    setIcon('')
+                }).catch((error) => {
+                    console.log(error)
+                });
             }
-            console.log(response);
-            console.log('Navigation item deleted successfully');
-            // mutate()
-        } catch (error) {
-            console.error('Error deleting navigation item:', error);
         }
     }
 
-    const cloneHandler = async (id: string) => {
-
+    const addHandler = async () => {
+        try {
+            setLabel('')
+            setLink('')
+            setIcon('')
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const editHandler = async (id: string) => {
-        console.log(id)
+        setSelectedItemId(id)
         try {
             const res = await fetch(`/api/navigation?id=${id}`, { method: 'GET'})
             const currentNavItem = await res.json()
+
             if (!res.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -145,144 +275,209 @@ const Navigation = () => {
             setLabel(currentNavItem.label)
             setLink(currentNavItem.link)
             setIcon(currentNavItem.icon)
-
-            setDrawerState("open")
         } catch (error) {
             console.error('Error deleting navigation item:', error);
         }
     }
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-        e.preventDefault();
+    const deleteHandler = async (id: string | string[] | React.Key[] | undefined) => {
+        console.log(id)
+        const response = await fetch(`/api/navigation?ids=${id}`, { method: 'DELETE'}).then((data) => {
+            getNavigationData()
+            console.log(`Navigation item deleted successfully ${id}`);
+            console.log(data);
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
 
-        const userID = session?.user?.id
-
-        if (!label) {
-            setErrorMsg('Label is required!')
-            setShowError(true)
-            return
-        }
-
-        if (!link) {
-            setErrorMsg('Link is required!')
-            setShowError(true)
-            return
-        }
-
-        const res = await fetch('/api/navigation', {
-            method: 'POST',
+    const publishHandler = async (id: string | string[] | React.Key[] | undefined, value: boolean) => {
+        console.log(selectedItemId)
+        console.log(id)
+        console.log(value)
+        const response = await fetch(`/api/navigation?id=${id}`, { 
+            method: 'PUT',
             cache: "no-cache",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ label, link, icon, createdById: userID, allowedUsers: [userID]})
-        }).then(async () => {
-            console.log("A navigation entry was successfully registred");
+            body: JSON.stringify({ isPublish: value })
+        }).then((data) => {
+            getNavigationData()
+            console.log(`Navigation item updated successfully ${id}`);
+            console.log(data);
         }).catch((error) => {
             console.log(error);
-        });
-
+        })
     }
 
+    const handleAddClick = () => {
+        setAction("add")
+        addHandler()
+        setDrawerState("open")
+    }
+
+    const handleEditClick = (id: string) => {
+        setAction("edit")
+        editHandler(id)
+        setDrawerState("open")
+    }
+
+    const handleDeleteClick = (id: any) => {
+        setModalState("open")
+        setSelectedItemId(id)
+    }
+
+    const handleCancelClick = () => {
+        setDrawerState("close")
+        setLabel('')
+        setLink('')
+        setIcon('')
+    }
+
+    const handleConfirmClick = () => {
+        deleteHandler(selectedItemId)
+        setModalState("close")
+    }
+
+    const handlePublishClick = (id: string, value: boolean) => {
+        publishHandler(id, value)
+    }
+
+    const fakeOptions = [
+        {
+            label: "Barcelona",
+            value: "Barcelona"
+        },
+        {
+            label: "Madrid",
+            value: "Madrid"
+        },
+        {
+            label: "Milano",
+            value: "Milano"
+        },
+        {
+            label: "Roma",
+            value: "Roma"
+        },
+    ]
+
+    const alert = (
+        <Alert status="fail" variant="standard" action={<Button type="button" size="xsmall" variant="text" status="fail" content="icon" onClick={() => setShowError(false)} theme={theme}><FontAwesomeIcon icon="close" /></Button>}>
+            <Alert.Title>Error</Alert.Title>
+            <Alert.Description>{errorMsg}</Alert.Description>
+        </Alert>
+    )
+
+    const FormDrawer = (
+        <Drawer state={drawerState} onClickOutside={() => setDrawerState("close")} theme={theme} width="500px" > 
+            {<Form onSubmit={saveHandler} style={{"height": "100%", "gap": "0"}}>  
+                <Drawer.Header>
+                    {action === 'add' ? (
+                        <div className={sx["drawer-header-inner"]}>
+                            <h2 className={sx["drawer-header-heading"]}>Create navigation entry</h2>
+                            <span className={sx["drawer-header-subheading"]}>Fullfill the form below</span>
+                        </div>
+                    ) : (
+                        <div className={sx["drawer-header-inner"]}>
+                            <h2 className={sx["drawer-header-heading"]}>Edit navigation entry</h2>
+                            <span className={sx["drawer-header-subheading"]}>Change the form values below</span>
+                        </div>
+                    )}
+                    <Button type="button" size="xsmall" theme={theme} variant="neutral" status="neutral" surface="1" content="icon" onClick={() => setDrawerState("close")} >
+                        <FontAwesomeIcon icon="close" />
+                    </Button>
+                </Drawer.Header>
+                <Drawer.Body>  
+                    {
+                        showError && alert
+                    }
+                    <InputGroup>
+                        <Label htmlFor="label">Label</Label>
+                        <Input id="label" name="label" placeholder="Label" type="text" value={label} onChange={(e:any) => {setLabel(e.target.value)}} />
+                    </InputGroup>
+                    <InputGroup>
+                        <Label htmlFor="link">Link</Label>
+                        <Input id="link" name="link" placeholder="Link" type="text" value={link} onChange={(e:any) => {setLink(e.target.value)}} />
+                    </InputGroup>
+                    <InputGroup>
+                        <Label htmlFor="icon">Icon</Label>
+                        <Input id="icon" name="icon" placeholder="Icon" type="text" value={icon} onChange={(e:any) => {setIcon(e.target.value)}} />
+                    </InputGroup>
+                    <InputGroup>
+                        <Label htmlFor="parent">Parent</Label>
+                        <Select id="001" placeholder={fakeOptions[0].label} options={fakeOptions} theme={theme} onChange={(value: any) => console.log(value)} />
+                        <Select id="002" placeholder="Select something..." options={fakeOptions} isMulti={true} theme={theme} onChange={(value: any) => console.log(value)} />
+                        <Select id="003" placeholder="Select something..." options={fakeOptions} isMulti={true} isSearchable={true} theme={theme} onChange={(value: any) => console.log(value)} />
+                        Continuaa aici...fixeaza select ul sa functioneze corect
+                    </InputGroup>
+                    {/* <Input name="parent" placeholder="Parent" type="text" onChange={(e:any) => {setParent(e.target.value)}} /> */}
+                </Drawer.Body>
+                <Drawer.Footer>
+                    <Button type="submit" size="small" theme={theme} variant="solid" status="accent" content="text" >Save</Button>
+                    <Button type="button" size="small" theme={theme} variant="neutral" status="neutral" surface="2" content="text" onClick={handleCancelClick}>Cancel</Button>
+                </Drawer.Footer>
+            </Form>}
+        </Drawer>
+    )
+
+    const WarningModal = (
+        <Modal title="Are you sure?" state={modalState} theme={theme} onClickOutside={() => setModalState("close")} onClose={() => setModalState("close")} onCancel={() => setModalState("close")} onConfirm={handleConfirmClick}>
+            <p>Are you sure you want to delete this navigation item?</p> 
+            <p>This action cannot be undone.</p>
+        </Modal>
+    )
+
     useEffect(() => {
-        fetchNavigationItems().then((data) => {
-            // console.log(data)
-            Promise.all(
-                data.map((item:any) => 
-                    fetchUserById(item.createdById).then((user) => ({
-                        ...item,
-                        createdByEmail: user.email,
-                    }))
-                )
-            ).then((mergedData:any) => {
-                // console.log(mergedData)
-                setDataSource(mergedData)
-            });
-        });
+        getNavigationData()
     }, []);
 
     return (
         
         <MainLayout>
-            
-            <Toolbar right={
+            <Toolbar
+            left={
+                <div style={{"display": "flex", "gap": "10px"}}>
+                    <Select id="001" placeholder="Select..." width="250px" options={fakeOptions} theme={theme} surface="2" onChange={(value: any) => console.log(value)} />
+                    <Select id="002" placeholder="Select..." width="250px" options={fakeOptions} theme={theme} surface="2" onChange={(value: any) => console.log(value)} />
+                    <Select id="003" placeholder="Select something..." width="250px" options={fakeOptions} isMulti={true} surface="2" theme={theme} onChange={(value: any) => console.log(value)} />
+                    <Select id="004" placeholder="Select something..." width="250px" options={fakeOptions} isMulti={true} surface="2" isSearchable={true} theme={theme} onChange={(value: any) => console.log(value)} />
+                </div>
+            }
+            right={
                 <>      
-                    <Button type="button" size="medium" variant="neutral" status="fail" surface="1" content="icon" theme={theme} onClick={() => deleteHandler(selectedRows)} disabled={!selectedRows ? true : false}>
+                    <Button type="button" size="medium" variant="neutral" status="fail" surface="1" content="icon" theme={theme} onClick={() => handleDeleteClick(selectedRows)} disabled={!selectedRows?.length ? true : false}>
                         <FontAwesomeIcon icon="trash" />
                     </Button>          
-                    <Button type="button" size="medium" variant="solid" status="accent" content="icon" theme={theme} onClick={() => setDrawerState("open")}>
+                    <Button type="button" size="medium" variant="solid" status="accent" content="icon" theme={theme} onClick={handleAddClick}>
                         <FontAwesomeIcon icon="plus" />
                     </Button>
 
                 </>
             } />
             <Content>
-                <ConfigProvider theme={{
-                        token: {
-                            colorBgBase: theme === "light" ? "#ffffff" : "#242424",
-                            colorText: theme === "light" ? "#181818" : "#ffffff",
-                            colorBorder: theme === "light" ? "#F0F2F4" : "#343738",
-                            colorBorderSecondary: theme === "light" ? "#F0F2F4" : "#343738",
-                            colorPrimaryBg: theme === "light" ? "rgba(0, 0, 0, 0.025)" : "rgba(255, 255, 255, 0.025)",
-                            colorPrimaryBgHover: theme === "light" ? "rgba(0, 0, 0, 0.033)" : "rgba(255, 255, 255, 0.033)",
-                            // colorFillAlter: theme === "light" ? "#F0F2F4" : "#2E2F30",
-                        },
-                    }}
-                >
+                <ConfigProvider theme={configTheme(theme)}>
                     {
                         dataSource ? (
                             <Table
                                 rowSelection={rowSelection}
                                 columns={columns}
                                 dataSource={dataSource}
+                                rowClassName={rowClassName}
                                 rowKey="id"
+                                // scroll={{ x: true, y: 400 }}
                             />
                         ) : (
                             <Loading />
                         )
                     }
                 </ConfigProvider>
+
             </Content>
-            <Drawer state={drawerState} theme={theme} size="small" > 
-                <Drawer.Header>
-                    <div className={sx["drawer-header-inner"]}>
-                        <h2 className={sx["drawer-header-heading"]}>Create navigation entry</h2>
-                        <span className={sx["drawer-header-subheading"]}>Fullfill the form below</span>
-                    </div>
-                    <Button type="button" size="small" theme={theme} variant="neutral" status="neutral" surface="1" content="icon" onClick={() => setDrawerState("close")} >
-                        <FontAwesomeIcon icon="close" />
-                    </Button>
-                </Drawer.Header> 
-                <Form event={handleSubmit} style={{"height": "100%", "gap": "0"}}>  
-                    <Drawer.Body>  
-                        {
-                            showError && 
-                            <Alert status="fail" variant="standard" action={<Button type="button" size="small" variant="text" status="fail" content="icon" onClick={() => setShowError(false)} theme={theme}><FontAwesomeIcon icon="close" /></Button>}>
-                                <Alert.Title>Error</Alert.Title>
-                                <Alert.Description>{errorMsg}</Alert.Description>
-                            </Alert>
-                        }
-                        <InputGroup>
-                            <Label htmlFor="label">Label</Label>
-                            <Input id="label" name="label" placeholder="Label" type="text" value={label} onChange={(e:any) => {setLabel(e.target.value)}} />
-                        </InputGroup>
-                        <InputGroup>
-                            <Label htmlFor="link">Link</Label>
-                            <Input id="link" name="link" placeholder="Link" type="text" value={link} onChange={(e:any) => {setLink(e.target.value)}} />
-                        </InputGroup>
-                        <InputGroup>
-                            <Label htmlFor="icon">Icon</Label>
-                            <Input id="icon" name="icon" placeholder="Icon" type="text" value={icon} onChange={(e:any) => {setIcon(e.target.value)}} />
-                        </InputGroup>
-                        {/* <Input name="parent" placeholder="Parent" type="text" onChange={(e:any) => {setParent(e.target.value)}} /> */}
-                    </Drawer.Body>
-                    <Drawer.Footer>
-                        <Button type="submit" size="small" theme={theme} variant="solid" status="accent" content="text" >Save</Button>
-                        <Button type="button" size="small" theme={theme} variant="neutral" status="neutral" surface="2" content="text" >Cancel</Button>
-                    </Drawer.Footer>
-                </Form>                   
-            </Drawer>
+            {drawerState === "open" && FormDrawer}
+            {modalState  === "open" && WarningModal}
         </MainLayout>
     )
 }

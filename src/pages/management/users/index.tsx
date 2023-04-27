@@ -10,7 +10,7 @@ const Users = () => {
 }
 
 Users.auth = {
-    roles: ["LEARNER", "MANAGER", "ADMIN"],
+    roles: ["ADMIN"],
     loading: <Loading />,
     unauthorized: "/unauthorized", // redirect to this url
 }

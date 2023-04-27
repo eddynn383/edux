@@ -1,9 +1,10 @@
 import Text from '../Text'
 import { IPropsMenuNoLink } from './interface'
+import sx from '../../styles/component.module.scss'
 
-const MenuNoLink = ({cn, id, title, text, iconBefore, iconAfter, onClick, children}:IPropsMenuNoLink) => {
+const MenuNoLink = ({id, title, text, style, iconBefore, iconAfter, theme="light", onClick, children}:IPropsMenuNoLink) => {
     return (
-        <button className={cn ? `${'no-link'} ${cn}` : `${'no-link'}`} id={id} title={title} onClick={onClick}>
+        <button className={sx['menu-nolink']} id={id} title={title} style={style} data-theme={theme} onClick={onClick}>
             {iconBefore}
             {text && <Text>{text}</Text>}
             {iconAfter}

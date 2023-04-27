@@ -2,11 +2,9 @@ import Link from 'next/link';
 import { IPropsMenuLink } from './interface';
 import sx from '../../styles/component.module.scss'
 
-const NavLink = ({to, cn, id, title, iconBefore, text, iconAfter, theme, children}:IPropsMenuLink) => {
-    // console.log("***** MENU LINK THEME *****")
-    // console.log(theme)
+const NavLink = ({to, id, title, iconBefore, text, iconAfter, style, theme="light", children}:IPropsMenuLink) => {
     return (
-        <Link href={to} className={sx['menu-link']} id={id} title={title}>
+        <Link className={sx['menu-link']} id={id} href={to} title={title} style={style} data-theme={theme}>
             {iconBefore}
             {text && <span>{text}</span>}
             {iconAfter}

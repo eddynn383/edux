@@ -92,7 +92,7 @@ export default function Login() {
                 </div>
                 {
                     showError && 
-                    <Alert status="fail" variant="standard" action={<Button type="button" size="small" variant="text" status="fail" content="icon" onClick={() => setShowError(false)} theme={theme}><FontAwesomeIcon icon={"close"} /></Button>}>
+                    <Alert status="fail" variant="standard" action={<Button type="button" size="xsmall" variant="text" status="fail" content="icon" onClick={() => setShowError(false)} theme={theme}><FontAwesomeIcon icon={"close"} /></Button>}>
                         <Alert.Title>Error</Alert.Title>
                         <Alert.Description>{errorMsg}</Alert.Description>
                     </Alert>

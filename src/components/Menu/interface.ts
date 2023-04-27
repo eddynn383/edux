@@ -1,4 +1,8 @@
+import { IMenuItem } from "../MenuItem/interface";
+
 export interface IPropsMenu {
-    data: any,
-    theme?: "light" | "dark" | string | any
+    id?: string,
+    style?: React.CSSProperties,
+    data: IMenuItem[] | null,
+    theme?: "light" | "dark" | string
 }

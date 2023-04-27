@@ -1,0 +1,198 @@
+.select {
+    position: relative;
+    min-width: 150px;
+    user-select: none;
+    &::selection {
+        color: none;
+        background: none;
+    }
+    /* For Mozilla Firefox */
+    &::-moz-selection {
+        color: none;
+        background: none;
+    }
+
+    &-current {
+        display: flex;
+        height: 100%;
+        // border-width: 1px;
+        // border-style: solid;
+        border-radius: var(--select-border-radius, var(--border-radius-200, 10px));
+        user-select: none;
+        cursor: pointer;
+        &_value {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 100%;
+            height: 44px;
+            overflow: auto;
+            padding: var(--select-padding-y, var(--padding-300, 12px)) var(--select-padding-x, var(--padding-300, 12px));
+            font-size: var(--select-font-size, var(--font-size-400, 16px));
+            line-height: var(--select-line-height, 20px);
+            &[data-multiple="true"][data-selected="true"] {
+                padding: calc(var(--select-current-padding-y, var(--padding-200, 8px)) - 2px) calc(var(--select-current-padding-x, var(--padding-300, 12px)) - 2px);
+            }
+        }
+        &_tags {
+            display: flex;
+            gap: var(--select-tags-gap, var(--gap-200, 8px));
+        }
+        &_tag {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--select-tag-gap, var(--gap-100, 5px));
+            background-color: var(--select-tag-background, var(--background-color-200, #F0F2F4));
+            padding: 5px 10px;
+            border-radius: 15px;
+            &-text {
+                font-size: var(--select-tag-text-font-size, var(--font-size-100, 12px));;
+                color: var(--select-tag-text-color, var(--text-color-100, #000000));
+                line-height: var(--select-tag-text-line-height, var(--line-height-100, 1));
+            }
+            &-icon {
+                color: var(--select-tag-icon-default-color, var(--text-color-300));
+                &:hover {
+                    color: var(--select-tag-icon-hover-color, var(--accent-color-200));
+                }
+            }
+        }
+        &_icon {
+            display: flex;
+            align-items: center;
+            padding: var(--select-padding-y, var(--padding-300, 12px)) var(--select-padding-x, var(--padding-300, 12px));
+        }
+    }
+
+    &[data-open="true"] &-current {
+        border-radius: var(--select-border-radius, var(--border-radius-200, 10px)) var(--select-border-radius, var(--border-radius-200, 10px)) 0 0;
+    }
+
+    &[data-theme="light"][data-surface="1"] &-current {
+        background-color: var(--select-light-background-color, var(--background-color-150, #F0F2F4));
+        // border-color: var(--select-light-border-color, var(--background-color-150, #F0F2F4));
+        color: var(--select-light-text-color, var(--text-color-100, #181818));
+    }
+    &[data-theme="light"][data-surface="2"] &-current {
+        background-color: var(--select-light-background-color, var(--background-color-150, #F0F2F4));
+        // border-color: var(--select-light-border-color, var(--background-color-150, #F0F2F4));
+        color: var(--select-light-text-color, var(--text-color-100, #181818));
+    }
+    
+    &[data-theme="dark"][data-surface="1"] &-current {
+        background-color: var(--select-dark-background-color, var(--background-color-900, #2E2F30));
+        // border-color: var(--select-dark-border-color, var(--background-color900, #2E2F30));
+        color: var(--select-dark-text-color, var(--text-color-950, #ffffff));
+    }
+    &[data-theme="dark"][data-surface="2"] &-current {
+        background-color: var(--select-dark-background-color, var(--background-color-950, #242424));
+        // border-color: var(--select-dark-border-color, var(--background-color900, #2E2F30));
+        color: var(--select-dark-text-color, var(--text-color-950, #ffffff));
+    }
+    
+    &-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        border-top-width: var(--select-dropdown-border-width, var(--border-width-100, 1px));
+        border-top-style: solid;
+        border-radius: 0 0 var(--select-border-radius, var(--border-radius-200, 10px)) var(--select-border-radius, var(--border-radius-200, 10px));
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        user-select: none;
+        z-index: 1;
+
+        &_search {
+            padding: var(--select-padding-y, var(--padding-200, 8px)) var(--select-padding-x, var(--padding-300, 12px));;
+        }   
+
+        &_options {
+            display: block;
+        }
+
+        &_option {
+            font-size: var(--select-font-size, var(--font-size-400, 16px));
+            line-height: var(--select-line-height, 20px);
+            padding: var(--select-padding-y, var(--padding-300, 12px)) var(--select-padding-x, var(--padding-300, 12px));
+            &:hover {
+                cursor: pointer;
+            }
+        }
+        &_no-results {
+            padding: var(--select-padding-y, var(--padding-300, 12px)) var(--select-padding-x, var(--padding-300, 12px));
+            margin-bottom: 16px;
+            text-align: center;
+            color: var(--text-color-400);
+        }
+    }
+
+    &[data-theme="light"][data-surface="1"] &-dropdown {
+        background-color: var(--select-light-background-color, var(--background-color-150, #F0F2F4));
+        color: var(--select-light-text-color, var(--text-color-100, #181818));
+        border-top-color: var(--select-dropdown-separator, var(--border-color-100, #343738));
+        &_option {
+            background-color: var(--select-option-light-background-default, var(--background-color-150, #F0F2F4));
+            color: var(--select-option-light-text-default, var(--text-color-100, #181818));
+            &:hover {
+                background-color: var(--select-option-light-background-hover, var(--accent-color-400, #f4f3f2));
+                color: var(--select-option-light-text-hover, var(--text-color-950, #ffffff));
+            }
+            &[data-selected="true"] {
+                background-color: var(--select-option-light-background-selected, var(--accent-color-100, #A4C4E3));
+            }
+        }
+    }
+
+    &[data-theme="light"][data-surface="2"] &-dropdown {
+        background-color: var(--select-light-background-color, var(--background-color-150, #F0F2F4));
+        color: var(--select-light-text-color, var(--text-color-100, #181818));
+        border-top-color: var(--select-dropdown-separator, var(--border-color-100, #343738));
+        &_option {
+            background-color: var(--select-option-light-background-default, var(--background-color-150, #F0F2F4));
+            color: var(--select-option-light-text-default, var(--text-color-100, #181818));
+            &:hover {
+                background-color: var(--select-option-light-background-hover, var(--accent-color-400, #f4f3f2)); 
+                color: var(--select-option-light-text-hover, var(--text-color-950, #ffffff));
+            }
+            &[data-selected="true"] {
+                background-color: var(--select-option-light-background-selected, var(--accent-color-100, #A4C4E3));
+            }
+        }
+    }
+
+    &[data-theme="dark"][data-surface="1"] &-dropdown {
+        background-color: var(--select-dark-background-color, var(--background-color-900, #2E2F30));
+        color: var(--select-dark-text-color, var(--text-color-950, #ffffff));
+        border-top-color: var(--select-dropdown-separator, var(--border-color-850, #343738));
+        &_option {
+            background-color: var(--select-option-dark-background-default, var(--background-color-900, #2E2F30));
+            color: var(--select-option-dark-text-default, var(--text-color-950, #ffffff));
+            &:hover {
+                background-color: var(--select-option-dark-background-hover, var(--accent-color-400, #f4f3f2));
+                color: var(--select-option-dark-text-hover, var(--text-color-950, #ffffff));
+            }
+            &[data-selected="true"] {
+                background-color: var(--select-option-light-background-selected, var(--accent-color-100, #A4C4E3));
+            }
+        }
+    }
+
+    &[data-theme="dark"][data-surface="2"] &-dropdown {
+        background-color: var(--select-dark-background-color, var(--background-color-950, #242424));
+        color: var(--select-dark-text-color, var(--text-color-950, #ffffff));
+        border-top-color: var(--select-dropdown-separator, var(--border-color-850, #343738));
+        &_option {
+            background-color: var(--select-option-dark-background-default, var(--background-color-950, #242424));
+            color: var(--select-option-dark-text-default, var(--text-color-950, #ffffff));
+            &:hover {
+                background-color: var(--select-option-dark-background-hover, var(--accent-color-400, #f4f3f2));
+                color: var(--select-option-dark-text-hover, var(--text-color-950, #ffffff));
+            }
+            &[data-selected="true"] {
+                background-color: var(--select-option-light-background-selected, var(--accent-color-100, #A4C4E3));
+            }
+        }
+    }
+}

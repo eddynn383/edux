@@ -1,8 +1,9 @@
 import sx from '../../styles/component.module.scss'
+import { IPropsLabel } from './interface'
 
-const Label = ({htmlFor, children}:any) => {
+const Label = ({ id, htmlFor, style, children }:IPropsLabel) => {
     return (
-        <label htmlFor={htmlFor} className={sx["label"]}>{children}</label>
+        <label className={sx["label"]} id={id} htmlFor={htmlFor} style={style}>{children}</label>
     )
 }
 

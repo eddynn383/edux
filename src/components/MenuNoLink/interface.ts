@@ -1,11 +1,11 @@
 export interface IPropsMenuNoLink {
-    cn?: string,
     id?: string,
-    title: string,
+    title?: string,
+    style?: React.CSSProperties,
     iconBefore?: React.ReactElement,
     text?: string
     iconAfter?: React.ReactElement
-    theme?: "light" | "dark",
+    theme?: "light" | "dark" | string,
     onClick: (e: any) => void,
-    children?: any
+    children?: React.ReactNode
 }

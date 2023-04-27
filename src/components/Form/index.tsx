@@ -1,8 +1,9 @@
 import sx from "../../styles/component.module.scss"
+import { IPropsForm } from "./interface"
 
-const Form = ({children, event, style}:any) => {
+const Form = ({ id, style, onSubmit, children}:IPropsForm) => {
     return (
-        <form className={sx.form} onSubmit={event} style={style}>{children}</form>
+        <form className={sx.form} id={id} style={style} onSubmit={onSubmit}>{children}</form>
     )
 }
 

@@ -92,6 +92,7 @@ model NavigationItem {
     updatedBy      User?            @relation(name: "UpdatedById", fields: [updatedById], references: [id])
     updatedById    String?          @db.ObjectId
     updatedAt      DateTime?        @updatedAt
+    isPublish      Boolean          @default(false)
     allowedUsers   String[]
 
     @@map("NavigationItems")

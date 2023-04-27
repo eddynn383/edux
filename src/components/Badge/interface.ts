@@ -2,6 +2,7 @@ export interface IPropsBadge {
     id?: string,
     value: number,
     title?: string,
+    style?: React.CSSProperties,
     max?: number,
     theme: "light" | "dark",
     size: "small" | "medium" | "large",

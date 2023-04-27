@@ -23,3 +23,6 @@ export function useApi(endpoint: string) {
 
     return { data, loading, error };
 }
+
+
+// Not needed

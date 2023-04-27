@@ -1,0 +1,61 @@
+.modal {
+    position: relative;
+    &-mask {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .3s, ease-in-out .3s;
+    }
+    &[data-state="open"] &-mask {
+        opacity: 1;
+        visibility: visible;
+    }
+    &-outer {
+        display: flex;
+        flex-direction: column;
+        gap: var(--modal-outer-gap, var(--gap-500, 20px));
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        padding-top: var(--modal-small-padding-top, var(--padding-500, 20px));
+        padding-bottom: var(--modal-small-padding-bottom, var(--padding-500, 20px));
+        padding-left: var(--modal-small-padding-left, var(--padding-500, 20px));
+        padding-right: var(--modal-small-padding-right, var(--padding-500, 20px));
+        background-color: var(--modal-light-background-color, var(--background-color-950, #242424));
+        border-radius: var(--modal-small-border-radius, var(--border-radius-300, 12px));
+        opacity: 0;
+        visibility: hidden;
+        transform: translate(-50%, -50%) scale(0);
+        transition: opacity .3s, ease-in-out 0.3s;
+    }
+    &[data-state="open"] &-outer {
+        opacity: 1;
+        visibility: visible;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    &-inner {
+        display: flex;
+        flex-direction: column;
+        gap: var(--modal-inner-gap, var(--gap-100, 4px));
+    }
+    &-title {
+        padding-top: var(--modal-title-padding-top, 0);
+        padding-bottom: var(--modal-title-padding-bottom, 0);
+        padding-left: var(--modal-title-padding-left, 0);
+        padding-right: var(--modal-title-padding-right, var(--padding-700, 28px));
+    }
+    &-close-button {
+        position: absolute;
+        top: var(--modal-small-padding-top, var(--padding-500, 20px));
+        right: var(--modal-small-padding-right, var(--padding-500, 20px));
+    }
+    &-actions {
+        display: flex;
+        gap: var(--modal-actions-gap, var(--gap-300, 12px));
+    }
+}

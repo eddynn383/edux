@@ -41,13 +41,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             break;
         case 'POST':
             try {
-                const { label, link, icon, createdById, allowedUsers, children } = req.body;
+                const { label, link, icon, createdById, updatedById, allowedUsers, children } = req.body;
                 const newNavEntries = await prisma.navigationItem.create({ 
                     data: {
                         label, 
                         link, 
                         icon, 
                         createdById,
+                        updatedById,
                         allowedUsers,
                         children
                     } 
@@ -62,7 +63,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         case 'PUT':
             try {
                 const { id } = req.query;
-                const { label, link, icon, /*allowedUsers, updatedById, updatedDate*/ children } = req.body;
+                const { label, link, icon, isPublish, /*allowedUsers, updatedById, updatedDate*/ children } = req.body;
                 const updatedNavEntries = await prisma.navigationItem.update({
                     where: {
                         id: String(id)
@@ -71,7 +72,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                         label, 
                         link, 
                         icon, 
-
+                        isPublish
                         //To implement
                         //allowedUsers,
                         //updatedById,

@@ -1,6 +1,6 @@
 export interface IPropsAlert {
-    cn?: string,
     id?: string,
+    style?: React.CSSProperties,
     theme?: "light" | "dark",
     variant?: "solid" | "outline" | "standard",
     status: "success" | "fail" | "warning" | "info",

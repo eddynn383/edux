@@ -1709,6 +1709,32 @@
     }
 
     // Size
+    &[data-size="xsmall"] {
+        font-size: var(--button-xsmall-font-size, var(--font-size-200, 12px));   
+        font-weight: var(--button-xsmall-font-weight, var(--font-weight-400, 400));
+        border-radius: var(--button-xsmall-border-radius, var(--border-radius-100, 4px));
+        &:focus:before {
+            border-radius: calc(var(--button-xsmall-border-radius, var(--border-radius-100, 4px)) + 2px);
+        }
+    }
+
+    &[data-size="xsmall"][data-content="text"] {
+        padding-top: var(--button-xsmall-padding-y, var(--button-xsmall-padding, var(--padding-100, 4px)));
+        padding-bottom: var(--button-xsmall-padding-y, var(--button-xsmall-padding, var(--padding-100, 4px)));
+        padding-left: var(--button-xsmall-padding-x, var(--button-xsmall-padding, var(--padding-200, 8px)));
+        padding-right: var(--button-xsmall-padding-x, var(--button-xsmall-padding, var(--padding-200, 8px)));
+    }
+
+    &[data-size="xsmall"][data-content="icon"] {
+        padding-top: var(--button-xsmall-padding-y, var(--button-xsmall-padding, var(--padding-100, 4px)));
+        padding-bottom: var(--button-xsmall-padding-y, var(--button-xsmall-padding, var(--padding-100, 4px)));
+        padding-left: var(--button-xsmall-padding-x, var(--button-xsmall-padding, var(--padding-100, 4px)));
+        padding-right: var(--button-xsmall-padding-x, var(--button-xsmall-padding, var(--padding-100, 4px)));
+        width: 24px;
+        height: 24px;
+    }
+
+
     &[data-size="small"] {
         font-size: var(--button-small-font-size, var(--font-size-300, 14px));   
         font-weight: var(--button-small-font-weight, var(--font-weight-400, 400));
@@ -1734,6 +1760,7 @@
         height: 36px;
     }
 
+
     &[data-size="medium"] {
         font-size: var(--button-medium-font-size, var(--font-size-400, 16px));
         font-weight: var(--button-medium-font-weight, var(--font-weight-400, 400));
@@ -1758,6 +1785,7 @@
         width: 44px;
         height: 44px;
     }
+
 
     &[data-size="large"] {
         font-size: var(--button-large-font-size, var(--font-size-400, 16px));

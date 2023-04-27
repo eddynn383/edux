@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { IPropsInput } from './interface'
 import sx from '../../styles/component.module.scss'
 
-const Input = ({id, name, type, innerRef, theme="light", size="medium", variant="outline", placeholder, value, autoComplete, iconBefore, iconAfter, ariaInvalid, ariaDescribedBy, status, focus, style, onClick, onChange, onFocus, onBlur }:IPropsInput) => {
+const Input = ({id, name, type, innerRef, placeholder, value, autoComplete, ariaInvalid, ariaDescribedBy, style, theme="light", variant="outline", size="medium", status, iconBefore, iconAfter, focus, onClick, onChange, onFocus, onBlur }:IPropsInput) => {
     const [inputType, setInputType] = useState(type)
 
     const innerProps = {
@@ -23,7 +23,7 @@ const Input = ({id, name, type, innerRef, theme="light", size="medium", variant=
     }, [type]) 
 
     return (
-        <div className={sx["input"]} id={id} data-theme={theme} data-variant={variant} data-icon={iconBefore && iconAfter ? 'both' : iconBefore ? 'before' : iconAfter ? 'after' : null } data-size={size} data-focus={focus} data-status={status} style={style} >
+        <div className={sx["input"]} id={id} style={style} data-theme={theme} data-variant={variant} data-size={size} data-status={status} data-icon={iconBefore && iconAfter ? 'both' : iconBefore ? 'before' : iconAfter ? 'after' : null } data-focus={focus} >
             {iconBefore}
             {
                 <input className={sx["input-inner"]} {...innerProps} type={inputType} aria-invalid={ariaInvalid} aria-describedby={ariaDescribedBy} />

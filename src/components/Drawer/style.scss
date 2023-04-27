@@ -1,13 +1,5 @@
 .drawer {
-    position: fixed;
-    top: 0;
-    right: 0;
-    height: 100%;
-    visibility: hidden;
-    background-color: var(--drawer-light-background-color, var(--background-color-950, #242424));
-    box-shadow: 0 0 12px 1px rgba(0, 0, 0, 0.2);
-    transform: translateX(100%);
-    transition: all .5s ease-in-out;
+    position: relative;
 
     &[data-size="small"] {
         width: 380px;
@@ -18,14 +10,39 @@
     &[data-size="large"] {
         width: 90%;
     }
-    &[data-state="open"] {
-        transform: translateX(0);
+    &-mask {
+        // display: none;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .5s, ease-in-out 0.5s;
+    }
+    &[data-state="open"] &-mask {
+        // display: block;
+        opacity: 1;
         visibility: visible;
     }
     &-inner {
         display: flex;
         flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: 0;
         height: 100%;
+        visibility: hidden;
+        background-color: var(--drawer-light-background-color, var(--background-color-950, #242424));
+        box-shadow: 0 0 12px 1px rgba(0, 0, 0, 0.2);
+        transform: translateX(100%);
+        transition: all .5s ease-in-out;
+    }
+    &[data-state="open"] &-inner {
+        transform: translateX(0);
+        visibility: visible;
     }
     &-header {
         display: flex;
