@@ -12,6 +12,8 @@ const Menu = ({id, style, data, theme="light"}: IPropsMenu) => {
         active = !active
     }
 
+    console.log(data)
+
     return (
         <nav className={sx.menu} id={id} style={style} >
             <ul data-level={1}>

@@ -17,8 +17,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 allowedUsers: {
                     has: session?.user?.id
                 },
-            }
+            },
+            // include: {
+            //     children: true,
+            // }
         })
+        console.log(navEntries)
         res.status(200).json(navEntries);
     
     } catch (error:any) {

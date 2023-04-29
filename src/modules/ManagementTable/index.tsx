@@ -17,10 +17,10 @@ function isTheme(value: string | undefined): value is "light" | "dark" {
 }
 
 const ManagementTable = ({ theme="light", header, body, onAdd, onEdit, onDelete, onSelectedRowKeysChange }: IPropsTableManagement) => {
-    const [ selectedRows, setSelectedRows ] = useState<React.Key[]>();
+    // const [ selectedRows, setSelectedRows ] = useState<React.Key[]>();
     // const [ navigationItems, setNavigationItems ] = useState([]);
     const [ selectedItemId, setSelectedItemId ] = useState<string>("") 
-    const [ selectedParentId, setSelectedParentId ] = useState<string>("") 
+    // const [ selectedParentId, setSelectedParentId ] = useState<string>("") 
 
     const rowClassName = (record: DataType) => {
         if (!record.isPublish) {
@@ -55,7 +55,7 @@ const ManagementTable = ({ theme="light", header, body, onAdd, onEdit, onDelete,
         onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
             console.log(selectedRows);
-            setSelectedRows(selectedRowKeys)
+            // setSelectedRows(selectedRowKeys)
 
             if (onSelectedRowKeysChange) {
                 onSelectedRowKeysChange(selectedRowKeys);

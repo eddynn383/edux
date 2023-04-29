@@ -32,6 +32,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                             }
                         }
                     })
+                    console.log(navEntries)
                     res.status(200).json(navEntries);
                 }
             
@@ -63,8 +64,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                         createdById,
                         updatedById,
                         allowedUsers,
-                        parentId: parentId,
-                        children: children || null
+                        parentId: parentId
                     } 
                 });
 

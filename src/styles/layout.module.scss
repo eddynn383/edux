@@ -101,3 +101,80 @@
         background-color: var(--layout-main-right, var(--background-color-900, #2E2F30));
     }
 }
+
+@media only screen and (max-width: 1024px) {
+    .auth {
+        grid-template-columns: auto auto;
+        .left {
+            padding: 30px;
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .auth {
+        grid-template-columns: 100%;
+        .top {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            overflow: hidden;
+            z-index: -1;
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+        .bottom {
+            display: flex;
+            align-items: flex-end;
+            padding: 24px;
+            width: 100vw;
+            height: 100vh;
+            .inner {
+                max-width: 480px;
+                width: 100%;
+                margin: 0 auto;
+                padding: 24px;
+                border-radius: 8px;
+                .logo {
+                    width: 140px;
+                    height: auto;
+                    margin-bottom: 24px;
+                    img {
+                        width: 100%;
+                        height: auto;
+                    }
+                }
+            }
+        }
+    }
+
+    [data-theme="light"] .auth {
+        .bottom {
+            .inner {
+                background-color: var(--layout-auth-bottom, var(--background-color-100, #ffffff));
+            }
+        }
+    }
+    
+    [data-theme="dark"] .auth {
+        .bottom {
+            .inner {
+                background-color: var(--layout-auth-bottom, var(--background-color-950, #242424));
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 475px) {
+
+    .auth {
+        .bottom {
+            padding: 0;
+            
+        }
+    }
+}

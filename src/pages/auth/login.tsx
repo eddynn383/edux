@@ -21,7 +21,7 @@ import sx from "../../styles/login.module.scss"
 import Loading from "@/components/Loading";
 import Alert from "@/components/Alert";
 
-export default function Login() {
+export default function Login({deviceType}: any) {
 
     const { resolvedTheme } = useTheme()
     const theme = resolvedTheme
@@ -81,7 +81,7 @@ export default function Login() {
     }
 
     return (
-        <AuthLayout>
+        <AuthLayout device={deviceType}>
             <Head>
                 <title>Login</title>
             </Head>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<url><loc>http://localhost:3000</loc><lastmod>2023-04-29T22:52:00.805Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3000/403</loc><lastmod>2023-04-29T22:52:00.805Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3000/admin</loc><lastmod>2023-04-29T22:52:00.805Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3000/auth/login</loc><lastmod>2023-04-29T22:52:00.805Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3000/auth/register</loc><lastmod>2023-04-29T22:52:00.805Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3000/catalog</loc><lastmod>2023-04-29T22:52:00.805Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3000/dashboard</loc><lastmod>2023-04-29T22:52:00.805Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3000/management/courses</loc><lastmod>2023-04-29T22:52:00.805Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3000/management/menu</loc><lastmod>2023-04-29T22:52:00.805Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3000/management/navigations</loc><lastmod>2023-04-29T22:52:00.806Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3000/management/users</loc><lastmod>2023-04-29T22:52:00.806Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3000/profile</loc><lastmod>2023-04-29T22:52:00.806Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3000/teams</loc><lastmod>2023-04-29T22:52:00.806Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3000/test/buttons</loc><lastmod>2023-04-29T22:52:00.806Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>http://localhost:3000/unauthorized</loc><lastmod>2023-04-29T22:52:00.806Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+</urlset>

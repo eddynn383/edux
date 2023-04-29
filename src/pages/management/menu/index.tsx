@@ -3,6 +3,7 @@ import { useTheme } from 'next-themes'
 import { useSession } from "next-auth/react"
 import { dateFormat } from '@/lib/dateFormat';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Head from 'next/head';
 import MainLayout from "@/layouts/MainLayout"
 import Toolbar from "@/modules/PageToolbar";
 import Content from '@/modules/PageContent';
@@ -27,7 +28,7 @@ const Menus = () => {
     const [ drawerState, setDrawerState ] = useState<"open" | "close">("close");
     const [ action, setAction ] = useState<"add" | "edit">("add");
     const [ selectedItemId, setSelectedItemId ] = useState<string>("") 
-    const [ selectedRows, setSelectedRows ] = useState<React.Key[]>();
+    const [ selectedRows, setSelectedRows ] = useState<string | React.Key[]>();
 
     const tableHeader = [
         {
@@ -175,12 +176,13 @@ const Menus = () => {
         setDrawerData({})
     }
 
-    const handleAddItemChild = async () => {
+    const handleAddItemChild = async (id: string) => {
 
     }
 
     const handleEditItem = async (id: string) => {
-        setSelectedItemId(id)
+        console.log(id)
+        setSelectedRows(id)
         const item = tableBody.find((item: any) => item.id === id)
 
         if (item) {
@@ -242,11 +244,14 @@ const Menus = () => {
 
     return (
         <MainLayout>
+            <Head>
+                <title>Menu Manager</title>
+            </Head>
             <Toolbar left={toolbarLeft} right={toolbarRight} />
             <Content>
                 <ManagementTable theme={theme} header={tableHeader} body={tableBody} onAdd={handleAddItemChild} onEdit={handleEditItem} onDelete={handleDeleteItem} onSelectedRowKeysChange={(selectedRowKeys) => setSelectedRows(selectedRowKeys)} />
             </Content>
-            <ManagementDrawer theme={theme} state={drawerState} session={session} action={action} data={drawerData} selectedItemId={selectedRows} onStateUpdate={stateUpdate} />
+            <ManagementDrawer theme={theme} state={drawerState} session={session} action={action} data={drawerData} selectedItemId={selectedRows} onStateUpdate={stateUpdate} getNavigationData={getNavigationData} />
         </MainLayout>
     )
 }

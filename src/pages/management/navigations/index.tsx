@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import Head from "next/head";
 import { ConfigProvider, Table } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
 import { useSession } from "next-auth/react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTheme } from 'next-themes'
@@ -25,6 +25,7 @@ import { Option } from "@/components/Select/interface";
 import { DataType } from "../../../modules/ManagementTable/interface";
 import { configTheme } from "@/theme/externalConfig";
 import { dateFormat } from "@/lib/dateFormat";
+import type { ColumnsType } from 'antd/es/table';
 import sx from "../../../styles/component.module.scss"
 
 function isTheme(value: string | undefined): value is "light" | "dark" {
@@ -160,6 +161,7 @@ const Navigation = () => {
     const getNavigationItems = async () => {
         const response = await fetch('/api/navigation', { method: 'GET' });
         const data = await response.json();
+        console.log(data)
         return data;
     };
 
@@ -173,6 +175,7 @@ const Navigation = () => {
 
     const getNavigationData = () => {
         getNavigationItems().then((data) => {
+            console.log(data)
             Promise.all(
                 data.map((item:any) => 
                     Promise.all([
@@ -435,6 +438,9 @@ const Navigation = () => {
     return (
         
         <MainLayout>
+            <Head>
+                <title>Navigation Manager</title>
+            </Head>
             <Toolbar
             left={
                 <div style={{"display": "flex", "gap": "10px"}}>

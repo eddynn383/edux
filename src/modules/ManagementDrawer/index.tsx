@@ -20,6 +20,8 @@ const ManagementDrawer = ({theme="light", session, state, action="add", data, se
 
     useEffect(() => {
         console.log(action)
+        console.log(selectedItemId)
+        selectedItemId
         if (action === "add") {
             setLabel("")
             setLink("")
@@ -51,7 +53,7 @@ const ManagementDrawer = ({theme="light", session, state, action="add", data, se
         }
 
         if (action === 'add') {
-            const res = await fetch('/api/navigation', {
+            const response = await fetch('/api/navigation', {
                 method: 'POST',
                 cache: "no-cache",
                 headers: {
@@ -61,7 +63,7 @@ const ManagementDrawer = ({theme="light", session, state, action="add", data, se
                 body: JSON.stringify({ label, link, icon, createdById: userID, updatedById: userID, allowedUsers: [userID]})
             }).then(async () => {
                 console.log("The navigation entry was successfully registred!");
-                getNavigationData()
+                getNavigationData() 
                 onStateUpdate('close')
 
                 setLabel("")
@@ -71,9 +73,10 @@ const ManagementDrawer = ({theme="light", session, state, action="add", data, se
                 console.log(error)
             });
         } else if (action === 'edit') {
+            console.log("after edit")
             if (selectedItemId) {  
                 console.log(selectedItemId)
-                const res = await fetch(`/api/navigation?id=${selectedItemId}`, {
+                const response = await fetch(`/api/navigation?id=${selectedItemId}`, {
                     method: 'PUT',
                     cache: "no-cache",
                     headers: {
