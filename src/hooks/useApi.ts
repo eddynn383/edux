@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 export function useApi(endpoint: string) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
         async function fetchData() {
@@ -13,7 +13,7 @@ export function useApi(endpoint: string) {
                 setData(json);
                 setLoading(false);
             } catch (error) {
-                setError(error);
+                // setError(error);
                 setLoading(false);
             }
         }

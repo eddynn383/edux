@@ -14,7 +14,7 @@ export const MenuProvider = ({ children }:any) => {
             setMenuItems(data);
             setLoading(false)
         } catch (error) {
-            setError(error);
+            // setError(error);
             setLoading(false);
         }
     }

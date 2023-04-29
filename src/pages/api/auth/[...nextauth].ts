@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
-import type { NextAuthOptions } from "next-auth"
+import type { NextAuthOptions, User as NextAuthUser } from "next-auth"
+import type { User } from "@prisma/client";
 
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google"
@@ -12,6 +13,20 @@ import prisma from "../../../lib/prismadb"
 
 if (!process.env.NEXTAUTH_SECRET) {
     throw new Error("Please provide process.env.NEXTAUTH_SECRET");
+}
+
+const googleClientId = process.env.GOOGLE_CLIENT_ID;
+const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
+const githubClientId = process.env.GITHUB_ID;
+const githubClientSecret = process.env.GITHUB_SECRET;
+
+if (!googleClientId || !googleClientSecret || !githubClientId || !githubClientSecret) {
+  throw new Error("Required environment variables are missing");
+}
+
+interface Credentials {
+    email?: string;
+    password?: string;
 }
 
 export const authOptions: NextAuthOptions = {
@@ -30,14 +45,15 @@ export const authOptions: NextAuthOptions = {
                     type: "password",
                 },
             },
-            async authorize(credentials: any, req) {
+            //@ts-ignore
+            async authorize(credentials: any, req): Promise<User | null> {
                 const { email, password } = credentials;
                 const user = await prisma.user.findUnique({ where: { email } });
 
                 if (!user) {
                     throw new Error("No user found");
                 }
-
+                //@ts-ignore
                 const passwordValid = await compare(password, user.password);
 
                 if (!passwordValid) {
@@ -48,16 +64,12 @@ export const authOptions: NextAuthOptions = {
             }
         }),
         GoogleProvider({
-            // @ts-ignore
-            clientId: process.env.GOOGLE_CLIENT_ID,
-            // @ts-ignore
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            clientId: googleClientId,
+            clientSecret: googleClientSecret,
         }),
         GithubProvider({
-            // @ts-ignore
-            clientId: process.env.GITHUB_ID,
-            // @ts-ignore
-            clientSecret: process.env.GITHUB_SECRET
+            clientId: githubClientId,
+            clientSecret: githubClientSecret
         })
     ],
     adapter: PrismaAdapter(prisma),
@@ -65,13 +77,13 @@ export const authOptions: NextAuthOptions = {
         signIn: "/auth/login",
     },
     callbacks: {
-        async jwt({ token }) {
+        async jwt({ token }:any) {
             const userData = await prisma.user.findUnique({ where: { email: token.email } });
 
             if (token) {
                 console.log('***** jwt callback *****')
-                token.id = userData.id
-                token.roles = userData.roles
+                token.id = userData?.id
+                token.roles = userData?.roles
             }   
 
             return token;
