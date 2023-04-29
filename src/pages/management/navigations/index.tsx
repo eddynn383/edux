@@ -22,8 +22,9 @@ import Select from "@/components/Select";
 import Link from "next/link";
 import { Switch } from "antd";
 import { Option } from "@/components/Select/interface";
-import { DataType } from "./interface";
-import { dateFormat ,configTheme } from "./config";
+import { DataType } from "../../../modules/ManagementTable/interface";
+import { configTheme } from "@/theme/externalConfig";
+import { dateFormat } from "@/lib/dateFormat";
 import sx from "../../../styles/component.module.scss"
 
 function isTheme(value: string | undefined): value is "light" | "dark" {

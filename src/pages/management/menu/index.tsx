@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 import { useSession } from "next-auth/react"
-import { dateFormat } from '@/theme/externalConfig';
+import { dateFormat } from '@/lib/dateFormat';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MainLayout from "@/layouts/MainLayout"
 import Toolbar from "@/modules/PageToolbar";

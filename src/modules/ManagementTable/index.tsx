@@ -7,7 +7,8 @@ import Chip from "@/components/Chip";
 import Link from "next/link";
 import Loading from "@/components/Loading"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { dateFormat ,configTheme } from "../../theme/externalConfig";
+import { configTheme } from "@/theme/externalConfig";
+import { dateFormat } from "@/lib/dateFormat";
 import { DataType, IPropsTableManagement } from "./interface";
 import sx from "../../styles/component.module.scss"
 
@@ -55,7 +56,7 @@ const ManagementTable = ({ theme="light", header, body, onAdd, onEdit, onDelete,
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
             console.log(selectedRows);
             setSelectedRows(selectedRowKeys)
-            
+
             if (onSelectedRowKeysChange) {
                 onSelectedRowKeysChange(selectedRowKeys);
             }
