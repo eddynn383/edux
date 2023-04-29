@@ -26,7 +26,7 @@ const MainLayout = ({ children, navigation }:any) => {
     // }
 
     useEffect(() => {
-        console.log(menuItems)
+        // console.log(menuItems)
         setMenuData(menuItems)
     }, [menuItems, session])
     

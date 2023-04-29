@@ -41,7 +41,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             break;
         case 'POST':
             try {
-                const { label, link, icon, createdById, updatedById, allowedUsers, children } = req.body;
+                const { label, link, icon, createdById, updatedById, allowedUsers, parentId, children } = req.body;
+
+                let parentNavEntry = null;
+
+                if (parentId) {
+                    parentNavEntry = await prisma.navigationItem.findUnique({
+                        where: {
+                            id: parentId
+                        }
+                    });
+                    console.log("***** NAV PARENT OBJECT *****")
+                    console.log(parentNavEntry)
+                }
+
                 const newNavEntries = await prisma.navigationItem.create({ 
                     data: {
                         label, 
@@ -50,9 +63,26 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                         createdById,
                         updatedById,
                         allowedUsers,
-                        children
+                        parentId: parentId,
+                        children: children || null
                     } 
                 });
+
+                if (parentNavEntry) {
+                    console.log(parentNavEntry)
+                    await prisma.navigationItem.update({
+                        where: {
+                            id: parentId
+                        },
+                        data: {
+                            children: {
+                                connect: {
+                                    id: newNavEntries.id
+                                }
+                            }
+                        }
+                    });
+                }
         
                 // await newNavEntries.save();
                 res.status(201).json(newNavEntries);

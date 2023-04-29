@@ -17,13 +17,14 @@ import Alert from "@/components/Alert";
 import Chip from "@/components/Chip";
 import Loading from "@/components/Loading"
 import Button from "@/components/Button";
-import { Switch } from "antd";
+import Modal from "@/components/Modal";
+import Select from "@/components/Select";
 import Link from "next/link";
+import { Switch } from "antd";
+import { Option } from "@/components/Select/interface";
 import { DataType } from "./interface";
 import { dateFormat ,configTheme } from "./config";
 import sx from "../../../styles/component.module.scss"
-import Modal from "@/components/Modal";
-import Select from "@/components/Select";
 
 function isTheme(value: string | undefined): value is "light" | "dark" {
     return value === "light" || value === "dark";
@@ -37,11 +38,13 @@ const Navigation = () => {
     const [ label, setLabel ] = useState<string>("");
     const [ link, setLink ] = useState<string>("");
     const [ icon, setIcon ] = useState<string>("");
+    const [ parent, setParent ] = useState<Option[]>([])
     const [ action, setAction ] = useState<"add" | "edit">("add");
     const [ errorMsg, setErrorMsg ] = useState("");
     const [ showError, setShowError ] = useState(false);
-    const [ dataSource, setDataSource ] = useState([]);
+    const [ navigationItems, setNavigationItems ] = useState([]);
     const [ selectedItemId, setSelectedItemId ] = useState<string>("") 
+    const [ selectedParentId, setSelectedParentId ] = useState<string>("") 
     const { resolvedTheme } = useTheme()
     const theme = isTheme(resolvedTheme) ? resolvedTheme : "light";
 
@@ -181,8 +184,15 @@ const Navigation = () => {
                     }))
                 )
             ).then((mergedData:any) => {
+                const filteredData = mergedData.filter((item: any) => item.isPublish);
+                console.log(filteredData)
+                const parentOptions = filteredData.map((item: any) => ({
+                    label: item.label,
+                    value: item.id,
+                }));
                 console.log(mergedData)
-                setDataSource(mergedData)
+                setNavigationItems(mergedData)
+                setParent(parentOptions)
             });
         });
     }
@@ -214,7 +224,7 @@ const Navigation = () => {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ label, link, icon, createdById: userID, updatedById: userID, allowedUsers: [userID]})
+                body: JSON.stringify({ label, link, icon, parentId: selectedParentId, createdById: userID, updatedById: userID, allowedUsers: [userID]})
             }).then(async () => {
                 console.log("The navigation entry was successfully registred!");
                 getNavigationData()
@@ -223,6 +233,7 @@ const Navigation = () => {
                 setLabel('')
                 setLink('')
                 setIcon('')
+                setSelectedParentId('')
             }).catch((error) => {
                 console.log(error)
             });
@@ -236,7 +247,7 @@ const Navigation = () => {
                         Accept: "application/json",
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ label, link, icon, updatedById: userID})
+                    body: JSON.stringify({ label, link, parentId: selectedParentId, icon, updatedById: userID})
                 }).then(async () => {
                     console.log("The navigation entry was successfully edited!");
                     getNavigationData()
@@ -245,6 +256,7 @@ const Navigation = () => {
                     setLabel('')
                     setLink('')
                     setIcon('')
+                    setSelectedParentId('')
                 }).catch((error) => {
                     console.log(error)
                 });
@@ -276,7 +288,7 @@ const Navigation = () => {
             setLink(currentNavItem.link)
             setIcon(currentNavItem.icon)
         } catch (error) {
-            console.error('Error deleting navigation item:', error);
+            console.error('Error editing navigation item:', error);
         }
     }
 
@@ -345,24 +357,11 @@ const Navigation = () => {
         publishHandler(id, value)
     }
 
-    const fakeOptions = [
-        {
-            label: "Barcelona",
-            value: "Barcelona"
-        },
-        {
-            label: "Madrid",
-            value: "Madrid"
-        },
-        {
-            label: "Milano",
-            value: "Milano"
-        },
-        {
-            label: "Roma",
-            value: "Roma"
-        },
-    ]
+    const handleSelectChange = (option: any) => {
+        console.log(option.value)
+        console.log(selectedParentId)
+        setSelectedParentId(option.value)
+    }
 
     const alert = (
         <Alert status="fail" variant="standard" action={<Button type="button" size="xsmall" variant="text" status="fail" content="icon" onClick={() => setShowError(false)} theme={theme}><FontAwesomeIcon icon="close" /></Button>}>
@@ -408,10 +407,7 @@ const Navigation = () => {
                     </InputGroup>
                     <InputGroup>
                         <Label htmlFor="parent">Parent</Label>
-                        <Select id="001" placeholder={fakeOptions[0].label} options={fakeOptions} theme={theme} onChange={(value: any) => console.log(value)} />
-                        <Select id="002" placeholder="Select something..." options={fakeOptions} isMulti={true} theme={theme} onChange={(value: any) => console.log(value)} />
-                        <Select id="003" placeholder="Select something..." options={fakeOptions} isMulti={true} isSearchable={true} theme={theme} onChange={(value: any) => console.log(value)} />
-                        Continuaa aici...fixeaza select ul sa functioneze corect
+                        <Select id="001" placeholder={"Choose an option..."} options={parent} theme={theme} onChange={handleSelectChange} />
                     </InputGroup>
                     {/* <Input name="parent" placeholder="Parent" type="text" onChange={(e:any) => {setParent(e.target.value)}} /> */}
                 </Drawer.Body>
@@ -432,6 +428,7 @@ const Navigation = () => {
 
     useEffect(() => {
         getNavigationData()
+        console.log(parent)
     }, []);
 
     return (
@@ -440,10 +437,10 @@ const Navigation = () => {
             <Toolbar
             left={
                 <div style={{"display": "flex", "gap": "10px"}}>
-                    <Select id="001" placeholder="Select..." width="250px" options={fakeOptions} theme={theme} surface="2" onChange={(value: any) => console.log(value)} />
+                    {/* <Select id="001" placeholder="Select..." width="250px" options={fakeOptions} theme={theme} surface="2" onChange={(value: any) => console.log(value)} />
                     <Select id="002" placeholder="Select..." width="250px" options={fakeOptions} theme={theme} surface="2" onChange={(value: any) => console.log(value)} />
                     <Select id="003" placeholder="Select something..." width="250px" options={fakeOptions} isMulti={true} surface="2" theme={theme} onChange={(value: any) => console.log(value)} />
-                    <Select id="004" placeholder="Select something..." width="250px" options={fakeOptions} isMulti={true} surface="2" isSearchable={true} theme={theme} onChange={(value: any) => console.log(value)} />
+                    <Select id="004" placeholder="Select something..." width="250px" options={fakeOptions} isMulti={true} surface="2" isSearchable={true} theme={theme} onChange={(value: any) => console.log(value)} /> */}
                 </div>
             }
             right={
@@ -460,11 +457,11 @@ const Navigation = () => {
             <Content>
                 <ConfigProvider theme={configTheme(theme)}>
                     {
-                        dataSource ? (
+                        navigationItems ? (
                             <Table
                                 rowSelection={rowSelection}
                                 columns={columns}
-                                dataSource={dataSource}
+                                dataSource={navigationItems}
                                 rowClassName={rowClassName}
                                 rowKey="id"
                                 // scroll={{ x: true, y: 400 }}

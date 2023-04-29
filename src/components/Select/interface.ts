@@ -1,9 +1,9 @@
-interface Option {
+export interface Option {
     value: string;
     label: string;
 }
 
-interface IPropsSelect {
+export interface IPropsSelect {
     id: string;
     placeholder: string;
     style?: React.CSSProperties;

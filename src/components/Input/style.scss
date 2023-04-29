@@ -56,7 +56,7 @@
     }
     
     &[data-size="medium"] {
-        padding: var(--input-medium-padding-y, var(--padding-300, 12px)) var(--input-medium-padding-x, var(--padding-400, 16px));
+        padding: var(--input-medium-padding-y, var(--padding-300, 12px)) var(--input-medium-padding-x, var(--padding-300, 12px));
         gap: var(--input-medium-gap, var(--gap-300, 12px));
         input {
             font-size: var(--input-medium-font-size, var(--font-size-400, 16px));

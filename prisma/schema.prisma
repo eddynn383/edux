@@ -39,18 +39,18 @@ model Session {
 }
 
 model User {
-    id             String           @id @default(auto()) @map("_id") @db.ObjectId
-    name           String?
-    email          String?          @unique
-    emailVerified  DateTime?
-    password       String?
-    image          String?
-    roles          Roles[]          @default([LEARNER])
-    accounts       Account[]
-    sessions       Session[]
-    createdAt      DateTime         @default(now())
-    updatedAt      DateTime         @updatedAt
-    Profile        Profile?
+    id                     String           @id @default(auto()) @map("_id") @db.ObjectId
+    name                   String?
+    email                  String?          @unique
+    emailVerified          DateTime?
+    password               String?
+    image                  String?
+    roles                  Roles[]          @default([LEARNER])
+    accounts               Account[]
+    sessions               Session[]
+    createdAt              DateTime         @default(now())
+    updatedAt              DateTime         @updatedAt
+    Profile                Profile?
     navigationItemsCreated NavigationItem[] @relation("CreatedById")
     navigationItemsUpdated NavigationItem[] @relation("UpdatedById")
 
@@ -101,7 +101,7 @@ model NavigationItem {
 model VerificationToken {
     id         String   @id @default(auto()) @map("_id") @db.ObjectId
     identifier String
-    token      String   @unique
+    token      String   @unique 
     expires    DateTime
 
     @@unique([identifier, token])

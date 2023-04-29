@@ -4,6 +4,7 @@ import Input from '../Input'
 import sx from '../../styles/component.module.scss'
 import Chip from '../Chip'
 import useClickOutside from '@/hooks/useClickOutside';
+import { IPropsSelect, Option } from './interface'
 
 
 const Select = ({ id, placeholder="Select...", options, isMulti=false, isSearchable=false, width, style, theme="light", state="close", surface="1", onChange, onClick }: IPropsSelect) => {
@@ -16,10 +17,6 @@ const Select = ({ id, placeholder="Select...", options, isMulti=false, isSearcha
 
     useClickOutside(wrapperRef, () => setShowOptions(false));
 
-    console.log(showOptions)
-    console.log(placeholder)
-    console.log(selectedOptions)
-
     const handleOptionClick = (option: Option) => {
         if (isMulti) {
             setSelectedOptions((prevSelected) =>
@@ -27,9 +24,11 @@ const Select = ({ id, placeholder="Select...", options, isMulti=false, isSearcha
                     ? prevSelected.filter((item) => item.value !== option.value)
                     : [...prevSelected, option]
             );
+            onChange && onChange(selectedOptions);
         } else {
             setSelectedOptions([option]);
             setShowOptions(false);
+            onChange && onChange(option);
         }
     };
 
@@ -45,10 +44,9 @@ const Select = ({ id, placeholder="Select...", options, isMulti=false, isSearcha
         e.stopPropagation();
         const newValue = removeOption(option);
         setSelectedOptions(newValue);
-        // onChange(newValue); 
     };
 
-    const filteredOptions = options.filter((option) =>
+    const filteredOptions = options.filter((option: Option) =>
         option.label.toLowerCase().includes(search.toLowerCase())
     );
 
@@ -58,7 +56,7 @@ const Select = ({ id, placeholder="Select...", options, isMulti=false, isSearcha
     }
 
     return (
-        <div className={sx['select']} id={id} style={customWidth} data-open={showOptions} data-theme={theme} data-surface={surface} ref={wrapperRef}>
+        <div className={sx['select']} id={id} style={customWidth} data-open={showOptions} data-theme={theme} data-surface={surface} ref={wrapperRef} onChange={onChange}>
             <div className={sx['select-current']} onClick={() => {
                 setShowOptions(!showOptions);
                 searchRef.current?.focus();
@@ -93,7 +91,7 @@ const Select = ({ id, placeholder="Select...", options, isMulti=false, isSearcha
                     <div className={sx["select-dropdown_options"]}>
                         {
                             filteredOptions.length > 0 ? (
-                                filteredOptions.map((option) => {
+                                filteredOptions.map((option: Option) => {
                                     const isSelected = selectedOptions.some((selected) => selected.value === option.value)
                                     return (
                                         <div onClick={() => handleOptionClick(option)} key={option.value} className={sx['select-dropdown_option']} data-selected={isSelected}>
