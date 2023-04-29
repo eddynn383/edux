@@ -5,7 +5,7 @@ const MenuContext = createContext<any>(null);
 export const MenuProvider = ({ children }:any) => {
     const [menuItems, setMenuItems] = useState(null)
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<Error | null>(null);
 
     const fetchData = async () => {
         try {
