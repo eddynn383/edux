@@ -1,6 +1,7 @@
 import MainLayout from '@/layouts/MainLayout'
 import Button from '@/components/Button'
 import { useTheme } from 'next-themes'
+import Loading from '@/components/Loading'
 
 const Buttons = () => {
     const { resolvedTheme  } = useTheme()
@@ -115,5 +116,12 @@ const Buttons = () => {
         </MainLayout>
     )
 }
+
+Buttons.auth = {
+    roles: ["ADMIN"],
+    loading: <Loading />,
+    unauthorized: "/unauthorized", // redirect to this url
+}
+
 
 export default Buttons
