@@ -61,12 +61,6 @@ export default function App({ Component, pageProps: { session, ...pageProps }, s
     )
 }
 
-// Function to determine device type based on user agent
-function isMobileDevice(userAgent: string): boolean {
-    const regex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
-    return regex.test(userAgent);
-}
-
 // Fetch user agent on server-side and pass it as a prop to the app
 export async function getServerSideProps({ req }: { req: { headers: { 'user-agent': string } } }) {
     const userAgent = req.headers['user-agent'] || '';
