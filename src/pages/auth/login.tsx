@@ -72,12 +72,12 @@ export default function Login({deviceType}: any) {
 
     // Google Handler function
     async function handleGoogleSignin(){
-        signIn('google', { callbackUrl : "http://localhost:3000"})
+        signIn('google', { callbackUrl : process.env.APP_URL})
     }
 
     // Google Handler function
     async function handleGithubSignin(){
-        signIn('github', { callbackUrl : "http://localhost:3000"})
+        signIn('github', { callbackUrl : process.env.APP_URL})
     }
 
     return (
