@@ -2,16 +2,11 @@ import { useEffect, useState } from 'react'
 import type { AppProps } from 'next/app'
 import type { NextComponentType } from 'next' //Import Component type
 import { SessionProvider, useSession } from 'next-auth/react'
-// import { Provider } from 'react-redux'
-// import { store } from '../services/store'
-// import useTheme from '@/hooks/useTheme'
-// import useLocalStorage from 'use-local-storage'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { ThemeProvider } from 'next-themes'
 import { MenuProvider } from '@/context/menuContext'
-import { getNavigation } from '@/lib/fetchApi'
 import { useDeviceType } from '@/hooks/useDeviceType'
 import router from 'next/router'
 import "@fortawesome/fontawesome-svg-core/styles.css";
