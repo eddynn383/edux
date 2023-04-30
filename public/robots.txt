@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: http://edurion.ro
+Host: https://edurion.ro
 
 # Sitemaps
-Sitemap: http://edurion.ro/sitemap.xml
+Sitemap: https://edurion.ro/sitemap.xml
