@@ -21,7 +21,11 @@ const githubClientId = process.env.GITHUB_ID;
 const githubClientSecret = process.env.GITHUB_SECRET;
 
 if (!googleClientId || !googleClientSecret || !githubClientId || !githubClientSecret) {
-  throw new Error("Required environment variables are missing");
+    console.log(googleClientId)
+    console.log(googleClientSecret)
+    console.log(githubClientId)
+    console.log(githubClientSecret)
+    throw new Error("Required environment variables are missing");
 }
 
 interface Credentials {
