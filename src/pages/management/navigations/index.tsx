@@ -37,8 +37,8 @@ const Navigation = () => {
     const [ selectedRows, setSelectedRows ] = useState<React.Key[]>();
     const [ drawerState, setDrawerState ] = useState<"open" | "close">("close");
     const [ modalState, setModalState ] = useState<"open" | "close">("close");
-    const [ label, setLabel ] = useState<string>("");
-    const [ link, setLink ] = useState<string>("");
+    const [ title, setTitle ] = useState<string>("");
+    const [ url, setUrl ] = useState<string>("");
     const [ icon, setIcon ] = useState<string>("");
     const [ parent, setParent ] = useState<Option[]>([])
     const [ action, setAction ] = useState<"add" | "edit">("add");
@@ -206,14 +206,14 @@ const Navigation = () => {
 
         const userID = session?.user?.id
 
-        if (!label) {
+        if (!title) {
             console.log("error label")
             setErrorMsg('Label is required!')
             setShowError(true)
             return
         }
 
-        if (!link) {
+        if (!url) {
             console.log("error link")
             setErrorMsg('Link is required!')
             setShowError(true)
@@ -228,14 +228,14 @@ const Navigation = () => {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ label, link, icon, parentId: selectedParentId, createdById: userID, updatedById: userID, allowedUsers: [userID]})
+                body: JSON.stringify({ title, url, icon, parentId: selectedParentId, createdById: userID, updatedById: userID, allowedUsers: [userID]})
             }).then(async () => {
                 console.log("The navigation entry was successfully registred!");
                 getNavigationData()
                 setDrawerState('close')
 
-                setLabel('')
-                setLink('')
+                setTitle('')
+                setUrl('')
                 setIcon('')
                 setSelectedParentId('')
             }).catch((error) => {
@@ -251,14 +251,14 @@ const Navigation = () => {
                         Accept: "application/json",
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ label, link, parentId: selectedParentId, icon, updatedById: userID})
+                    body: JSON.stringify({ title, url, parentId: selectedParentId, icon, updatedById: userID})
                 }).then(async () => {
                     console.log("The navigation entry was successfully edited!");
                     getNavigationData()
                     setDrawerState('close')
 
-                    setLabel('')
-                    setLink('')
+                    setTitle('')
+                    setUrl('')
                     setIcon('')
                     setSelectedParentId('')
                 }).catch((error) => {
@@ -270,8 +270,8 @@ const Navigation = () => {
 
     const addHandler = async () => {
         try {
-            setLabel('')
-            setLink('')
+            setTitle('')
+            setUrl('')
             setIcon('')
         } catch (error) {
             console.log(error)
@@ -288,8 +288,8 @@ const Navigation = () => {
                 throw new Error('Network response was not ok');
             }
 
-            setLabel(currentNavItem.label)
-            setLink(currentNavItem.link)
+            setTitle(currentNavItem.label)
+            setUrl(currentNavItem.link)
             setIcon(currentNavItem.icon)
         } catch (error) {
             console.error('Error editing navigation item:', error);
@@ -347,8 +347,8 @@ const Navigation = () => {
 
     const handleCancelClick = () => {
         setDrawerState("close")
-        setLabel('')
-        setLink('')
+        setTitle('')
+        setUrl('')
         setIcon('')
     }
 
@@ -398,12 +398,12 @@ const Navigation = () => {
                         showError && alert
                     }
                     <InputGroup>
-                        <Label htmlFor="label">Label</Label>
-                        <Input id="label" name="label" placeholder="Label" type="text" value={label} onChange={(e:any) => {setLabel(e.target.value)}} />
+                        <Label htmlFor="title">Title</Label>
+                        <Input id="title" name="title" placeholder="Title" type="text" value={title} onChange={(e:any) => {setTitle(e.target.value)}} />
                     </InputGroup>
                     <InputGroup>
-                        <Label htmlFor="link">Link</Label>
-                        <Input id="link" name="link" placeholder="Link" type="text" value={link} onChange={(e:any) => {setLink(e.target.value)}} />
+                        <Label htmlFor="url">Url</Label>
+                        <Input id="url" name="url" placeholder="Url" type="text" value={url} onChange={(e:any) => {setUrl(e.target.value)}} />
                     </InputGroup>
                     <InputGroup>
                         <Label htmlFor="icon">Icon</Label>
@@ -478,7 +478,7 @@ const Navigation = () => {
                         )
                     }
                 </ConfigProvider>
-                    
+
             </Content>
             {drawerState === "open" && FormDrawer}
             {modalState  === "open" && WarningModal}

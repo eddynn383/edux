@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://edurion.ro
+Host: http://localhost:3000
 
 # Sitemaps
-Sitemap: https://edurion.ro/sitemap.xml
+Sitemap: http://localhost:3000/sitemap.xml

@@ -11,22 +11,11 @@ const OrderList = ({theme="light", header, body, loading, onAdd, onEdit, onDelet
     useEffect(() => {
         const parentItems = body.filter((item) => !item.parentId);
         setTiles(parentItems)
+        console.log(parentItems)
     }, [body]);
 
     const updateDatabase = async (newOrder: any) => {
         // Implement your API call to update the database with the new order
-    };
-
-    const handleReorderTiles = (dragId: string, hoverId: string) => {
-        const dragIndex = tiles.findIndex((tile: any) => tile.id === dragId);
-        const hoverIndex = tiles.findIndex((tile: any) => tile.id === hoverId);
-
-        const newTiles = [...tiles];
-        const removed = newTiles.splice(dragIndex, 1)[0];
-        newTiles.splice(hoverIndex, 0, removed);
-
-        setTiles(newTiles);
-        updateDatabase(newTiles);
     };
     
     const handleSelectAll = () => {
@@ -55,8 +44,7 @@ const OrderList = ({theme="light", header, body, loading, onAdd, onEdit, onDelet
 
     return (
         <ItemList
-            tiles={tiles}
-            onReorderTiles={handleReorderTiles}
+            data={tiles}
             onSelectAll={handleSelectAll}
             onToggleSelect={handleToggleSelect}
             allSelected={allSelected}
