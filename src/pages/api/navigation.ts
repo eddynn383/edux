@@ -42,7 +42,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             break;
         case 'POST':
             try {
-                const { label, link, icon, createdById, updatedById, allowedUsers, parentId, children } = req.body;
+                const { title, url, icon, createdById, updatedById, allowedUsers, parentId, childItems } = req.body;
 
                 let parentNavEntry = null;
 
@@ -58,8 +58,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
                 const newNavEntries = await prisma.navigationItem.create({ 
                     data: {
-                        label, 
-                        link, 
+                        title, 
+                        url, 
                         icon, 
                         createdById,
                         updatedById,
@@ -75,7 +75,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                             id: parentId
                         },
                         data: {
-                            children: {
+                            childItems: {
                                 connect: {
                                     id: newNavEntries.id
                                 }
@@ -93,14 +93,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         case 'PUT':
             try {
                 const { id } = req.query;
-                const { label, link, icon, isPublish, /*allowedUsers, updatedById, updatedDate*/ children } = req.body;
+                const { title, url, icon, isPublish, /*allowedUsers, updatedById, updatedDate*/ childItems } = req.body;
                 const updatedNavEntries = await prisma.navigationItem.update({
                     where: {
                         id: String(id)
                     },
                     data: {
-                        label, 
-                        link, 
+                        title, 
+                        url, 
                         icon, 
                         isPublish
                         //To implement

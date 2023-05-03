@@ -80,12 +80,9 @@ model Profile {
 
 model NavigationItem {
     id             String           @id @default(auto()) @map("_id") @db.ObjectId
-    label          String
-    link           String
+    title          String
+    url            String
     icon           String?
-    parent         NavigationItem?  @relation("ChildOf", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-    parentId       String?          @db.ObjectId
-    children       NavigationItem[] @relation("ChildOf")
     createdBy      User?            @relation(name: "CreatedById", fields: [createdById], references: [id])
     createdById    String           @db.ObjectId
     createdAt      DateTime         @default(now())
@@ -94,6 +91,9 @@ model NavigationItem {
     updatedAt      DateTime?        @updatedAt
     isPublish      Boolean          @default(false)
     allowedUsers   String[]
+    parentId       String?          @db.ObjectId
+    parent         NavigationItem?  @relation("NavigationItemsToParent", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    childItems     NavigationItem[] @relation("NavigationItemsToParent")
 
     @@map("NavigationItems")
 }

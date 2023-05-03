@@ -12,8 +12,8 @@ export interface IMenuItem {
     allowedUsers: string[],
     icon: IconProp,
     isPublish: boolean,
-    label: string,
-    link: string,
+    title: string,
+    url: string,
     parentId: string,
     children: string[]
 }

@@ -11,6 +11,8 @@ import { configTheme } from "@/theme/externalConfig";
 import { dateFormat } from "@/lib/dateFormat";
 import { DataType, IPropsTableManagement } from "./interface";
 import sx from "../../styles/component.module.scss"
+import Checkbox from "@/components/Checkbox";
+import ItemList from "../ItemList";
 
 function isTheme(value: string | undefined): value is "light" | "dark" {
     return value === "light" || value === "dark";
@@ -21,6 +23,7 @@ const ManagementTable = ({ theme="light", header, body, onAdd, onEdit, onDelete,
     // const [ navigationItems, setNavigationItems ] = useState([]);
     const [ selectedItemId, setSelectedItemId ] = useState<string>("") 
     // const [ selectedParentId, setSelectedParentId ] = useState<string>("") 
+    const [selectedItems, setSelectedItems] = useState<any>([]);
 
     const rowClassName = (record: DataType) => {
         if (!record.isPublish) {
@@ -130,23 +133,71 @@ const ManagementTable = ({ theme="light", header, body, onAdd, onEdit, onDelete,
         publishHandler(id, value)
     }
 
-    return (
-        <ConfigProvider theme={configTheme(theme)}>
-            {
-                body ? (
-                    <Table
-                        rowSelection={rowSelection}
-                        columns={columns}
-                        dataSource={body}
-                        rowClassName={rowClassName}
-                        rowKey="id"
-                    // scroll={{ x: true, y: 400 }}
-                    />
-                ) : (
-                    <Loading />
-                )
+    const renderChildItems = (parentId: any) => {
+        const childItems = body.filter((item: any) => item.parentId === parentId);
+        console.log(childItems)
+
+        if (childItems.length === 0) return null;
+
+        return (           
+                <Table
+                    columns={columns}
+                    dataSource={childItems}
+                    showHeader={false}
+                    rowSelection={rowSelection}
+                    // rowKey="id"
+                    key={`child-table-${parentId}`}
+                    expandable={{
+                        expandedRowRender: (record) => renderChildItems(record.id)
+                    }}
+                    pagination={false}
+                    rowClassName={sx["table-row-children"]}
+                    className={sx["table-row-children"]}
+                />
+        );
+    };
+
+    
+    const handleItemChange = (id: any) => {
+        setSelectedItems((prevSelectedItems:any) => {
+            if (prevSelectedItems.includes(id)) {
+                return prevSelectedItems.filter((itemId: any) => itemId !== id);
+            } else {
+                return [...prevSelectedItems, id];
             }
-        </ConfigProvider>
+        });
+    };
+    
+    const parentItems = body.filter((item) => !item.parentId);
+
+    return (
+        <>
+            <ConfigProvider theme={configTheme(theme)}>
+                {
+                    body ? (
+                        <Table
+                            rowSelection={rowSelection}
+                            columns={columns}
+                            dataSource={parentItems}
+                            rowClassName={rowClassName}
+                            rowKey="id"
+                            expandable={{
+                                expandedRowRender: (record) => renderChildItems(record.id),
+                                rowExpandable: (record): boolean => {
+                                    const childItems = body.filter((item: any) => item.parentId === record.id);
+                                    // console.log(record)
+                                    // console.log(childItems)
+                                    return childItems.length > 0;
+                                },
+                            }}
+                        />
+                    ) : (
+                        <Loading />
+                    )
+                }
+            </ConfigProvider>
+            {/* <ItemList items={body as any} selectedItems={selectedItems} onItemChange={handleItemChange} /> */}
+        </>
     )
 }
 

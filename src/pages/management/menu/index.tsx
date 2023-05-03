@@ -14,6 +14,7 @@ import Loading from '@/components/Loading';
 import Link from "next/link";
 import { Switch } from "antd";
 import ManagementDrawer from '@/modules/ManagementDrawer';
+import OrderList from '@/modules/OrderList';
 
 function isTheme(value: string | undefined): value is "light" | "dark" {
     return value === "light" || value === "dark";
@@ -29,18 +30,19 @@ const Menus = () => {
     const [ action, setAction ] = useState<"add" | "edit">("add");
     const [ selectedItemId, setSelectedItemId ] = useState<string>("") 
     const [ selectedRows, setSelectedRows ] = useState<string | React.Key[]>();
+    const [ loading, setLoading ] = useState(true)
 
     const tableHeader = [
         {
-            title: 'Name',
-            dataIndex: 'label',
-            key: 'label',
-            className: 'label'
+            title: 'Title',
+            dataIndex: 'title',
+            key: 'title',
+            className: 'title'
         },
         {
-            title: 'Link',
-            dataIndex: 'link',
-            key: 'link',
+            title: 'Url',
+            dataIndex: 'url',
+            key: 'url',
             render: (value:any) => {
                 return (
                     <Link href={value} target="_blank" >{value}</Link>
@@ -123,6 +125,7 @@ const Menus = () => {
     };
 
     const getNavigationData = () => {
+        setLoading(true)
         getNavigationItems().then((data) => {
             Promise.all(
                 data.map((item:any) => 
@@ -144,6 +147,7 @@ const Menus = () => {
                 }));
                 console.log(mergedData)
                 setTableBody(mergedData)
+                setLoading(false)
                 // setParent(parentOptions)
             });
         });
@@ -177,7 +181,9 @@ const Menus = () => {
     }
 
     const handleAddItemChild = async (id: string) => {
-
+        setSelectedRows(id)
+        setAction("add")
+        setDrawerState("open")
     }
 
     const handleEditItem = async (id: string) => {
@@ -249,7 +255,8 @@ const Menus = () => {
             </Head>
             <Toolbar left={toolbarLeft} right={toolbarRight} />
             <Content>
-                <ManagementTable theme={theme} header={tableHeader} body={tableBody} onAdd={handleAddItemChild} onEdit={handleEditItem} onDelete={handleDeleteItem} onSelectedRowKeysChange={(selectedRowKeys) => setSelectedRows(selectedRowKeys)} />
+                {/* <ManagementTable theme={theme} header={tableHeader} body={tableBody} onAdd={handleAddItemChild} onEdit={handleEditItem} onDelete={handleDeleteItem} onSelectedRowKeysChange={(selectedRowKeys) => setSelectedRows(selectedRowKeys)} /> */}
+                <OrderList theme={theme} header={tableHeader} body={tableBody} onAdd={handleAddItemChild} onEdit={handleEditItem} onDelete={handleDeleteItem} onSelectedRowKeysChange={(selectedRowKeys) => setSelectedRows(selectedRowKeys)} loading={loading}  />
             </Content>
             <ManagementDrawer theme={theme} state={drawerState} session={session} action={action} data={drawerData} selectedItemId={selectedRows} onStateUpdate={stateUpdate} getNavigationData={getNavigationData} />
         </MainLayout>

@@ -12,15 +12,15 @@ const MenuItem = ({id, style, item, depthLevel, theme="light"}:IPropsMenuItem) =
     const router = useRouter()
 
     return (
-        <li className={sx['menu-item']} id={id} style={style} data-active={router.pathname === item.link ? true : false}>
+        <li className={sx['menu-item']} id={id} style={style} data-active={router.pathname === item.url ? true : false}>
             {
                 item.children ? (
                     <>
-                        <NoLink title={item.label} iconBefore={item.icon && <FontAwesomeIcon icon={item.icon} />} text={item.label} iconAfter={<FontAwesomeIcon icon="chevron-right" />} theme={theme} onClick={() => setShow(prev => !prev)} />
-                        <MenuDropdown items={item.children} parent={item.label} setShow={setShow} show={show} depthLevel={depthLevel} theme={theme} />
+                        <NoLink title={item.title} iconBefore={item.icon && <FontAwesomeIcon icon={item.icon} />} text={item.title} iconAfter={<FontAwesomeIcon icon="chevron-right" />} theme={theme} onClick={() => setShow(prev => !prev)} />
+                        <MenuDropdown items={item.children} parent={item.title} setShow={setShow} show={show} depthLevel={depthLevel} theme={theme} />
                     </> 
                 ) : (
-                    <Link to={item.link} title={item.label} iconBefore={item.icon && <FontAwesomeIcon icon={item.icon} />} text={item.label} theme={theme} />
+                    <Link to={item.url} title={item.title} iconBefore={item.icon && <FontAwesomeIcon icon={item.icon} />} text={item.title} theme={theme} />
                 )
             }
         </li>

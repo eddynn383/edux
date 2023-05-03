@@ -14,10 +14,11 @@ export interface DataType {
     updatedBy: Date;
 }
 
-export interface IPropsTableManagement {
+export interface IPropsOrderList {
     theme: "light" | "dark";
     header: ColumnsType<DataType>;
     body: DataType[];
+    loading: boolean;
     onAdd: (id: string) => void;
     onEdit: (id: string) => void;
     onDelete: (id: string) => void;

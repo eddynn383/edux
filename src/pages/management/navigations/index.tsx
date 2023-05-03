@@ -60,14 +60,14 @@ const Navigation = () => {
     const columns: ColumnsType<DataType> = [
         {
             title: 'Name',
-            dataIndex: 'label',
-            key: 'label',
-            className: 'label'
+            dataIndex: 'title',
+            key: 'title',
+            className: 'title'
         },
         {
-            title: 'Link',
-            dataIndex: 'link',
-            key: 'link',
+            title: 'Url',
+            dataIndex: 'url',
+            key: 'url',
             render: (value:any) => {
                 return (
                     <Link href={value} target="_blank" >{value}</Link>
@@ -478,7 +478,7 @@ const Navigation = () => {
                         )
                     }
                 </ConfigProvider>
-
+                    
             </Content>
             {drawerState === "open" && FormDrawer}
             {modalState  === "open" && WarningModal}

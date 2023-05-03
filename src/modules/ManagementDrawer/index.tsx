@@ -12,8 +12,8 @@ import sx from "../../styles/component.module.scss"
 
 const ManagementDrawer = ({theme="light", session, state, action="add", data, selectedItemId, getNavigationData, onStateUpdate}:any) => {
     
-    const [ label, setLabel ] = useState<string>("");
-    const [ link, setLink ] = useState<string>("");
+    const [ title, setTitle ] = useState<string>("");
+    const [ url, setUrl ] = useState<string>("");
     const [ icon, setIcon ] = useState<string>("");
     const [ errorMsg, setErrorMsg ] = useState<string>("");
     const [ showError, setShowError ] = useState<boolean>(false);
@@ -23,12 +23,12 @@ const ManagementDrawer = ({theme="light", session, state, action="add", data, se
         console.log(selectedItemId)
         selectedItemId
         if (action === "add") {
-            setLabel("")
-            setLink("")
+            setTitle("")
+            setUrl("")
             setIcon("")
         } else if (action === 'edit') {
-            setLabel(data.label)
-            setLink(data.link)
+            setTitle(data.title)
+            setUrl(data.url)
             setIcon(data.icon)
         }
     }, [action, data])
@@ -38,14 +38,14 @@ const ManagementDrawer = ({theme="light", session, state, action="add", data, se
 
         const userID = session?.user?.id
 
-        if (!label) {
+        if (!title) {
             console.log("error label")
             setErrorMsg('Label is required!')
             setShowError(true)
             return
         }
 
-        if (!link) {
+        if (!url) {
             console.log("error link")
             setErrorMsg('Link is required!')
             setShowError(true)
@@ -60,14 +60,14 @@ const ManagementDrawer = ({theme="light", session, state, action="add", data, se
                     Accept: "application/json",
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ label, link, icon, createdById: userID, updatedById: userID, allowedUsers: [userID]})
+                body: JSON.stringify({ title, url, icon, createdById: userID, updatedById: userID, allowedUsers: [userID], parentId: selectedItemId} )
             }).then(async () => {
                 console.log("The navigation entry was successfully registred!");
                 getNavigationData() 
                 onStateUpdate('close')
 
-                setLabel("")
-                setLink("")
+                setTitle("")
+                setUrl("")
                 setIcon("")
             }).catch((error) => {
                 console.log(error)
@@ -83,14 +83,14 @@ const ManagementDrawer = ({theme="light", session, state, action="add", data, se
                         Accept: "application/json",
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ label, link, icon, updatedById: userID})
+                    body: JSON.stringify({ title, url, icon, updatedById: userID})
                 }).then(async () => {
                     console.log("The navigation entry was successfully edited!");
                     getNavigationData()
                     onStateUpdate('close')
 
-                    setLabel("")
-                    setLink("")
+                    setTitle("")
+                    setUrl("")
                     setIcon("")
                     // setSelectedParentId('')
                 }).catch((error) => {
@@ -135,12 +135,12 @@ const ManagementDrawer = ({theme="light", session, state, action="add", data, se
                         showError && alert
                     }
                     <InputGroup>
-                        <Label htmlFor="label">Label</Label>
-                        <Input id="label" name="label" placeholder="Label" type="text" value={label} onChange={(e:any) => {setLabel(e.target.value)}} />
+                        <Label htmlFor="title">Title</Label>
+                        <Input id="title" name="title" placeholder="Title" type="text" value={title} onChange={(e:any) => {setTitle(e.target.value)}} />
                     </InputGroup>
                     <InputGroup>
-                        <Label htmlFor="link">Link</Label>
-                        <Input id="link" name="link" placeholder="Link" type="text" value={link} onChange={(e:any) => {setLink(e.target.value)}} />
+                        <Label htmlFor="url">Url</Label>
+                        <Input id="url" name="url" placeholder="Url" type="text" value={url} onChange={(e:any) => {setUrl(e.target.value)}} />
                     </InputGroup>
                     <InputGroup>
                         <Label htmlFor="icon">Icon</Label>
